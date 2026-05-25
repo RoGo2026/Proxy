@@ -12,7 +12,7 @@ def fetch_and_generate():
         print(f"Ошибка при скачивании файла: {e}")
         return
 
-    # Отфильтровываем пустые строки сразу, чтобы узнать точное количество рабочих ссылок
+    # Отфильтровываем пустые строки
     proxies = [line.strip() for line in lines if line.strip()]
     total_count = len(proxies)
 
@@ -31,7 +31,6 @@ def fetch_and_generate():
             max-width: 800px;
             margin: 0 auto;
         }}
-        /* Шапка с названием и счетчиком по бокам */
         .header-container {{
             display: flex;
             justify-content: space-between;
@@ -53,7 +52,6 @@ def fetch_and_generate():
             font-weight: bold;
             font-size: 14px;
         }}
-        /* Горизонтальная сетка для кнопок */
         .proxy-grid {{
             display: flex;
             flex-wrap: wrap;
@@ -61,7 +59,6 @@ def fetch_and_generate():
         }}
         .proxy-link {{
             display: block;
-            /* Рассчитываем ширину: по умолчанию 3 колонки на больших экранах */
             flex: 1 1 calc(33.333% - 10px);
             min-width: 130px;
             background-color: #0088cc;
@@ -78,19 +75,17 @@ def fetch_and_generate():
         .proxy-link:active {{
             background-color: #006699;
         }}
-        /* Класс, который сделает кнопку красной после нажатия */
         .proxy-link.clicked {{
             background-color: #d9534f;
         }}
-        /* Адаптивность под мобильные устройства */
         @media (max-width: 600px) {{
             .proxy-link {{
-                flex: 1 1 calc(50% - 10px); /* По 2 кнопки в ряд на телефонах */
+                flex: 1 1 calc(50% - 10px);
             }}
         }}
         @media (max-width: 360px) {{
             .proxy-link {{
-                flex: 1 1 100%; /* По 1 кнопке, если экран совсем крошечный */
+                flex: 1 1 100%;
             }}
         }}
     </style>
@@ -107,16 +102,21 @@ def fetch_and_generate():
 
     # Добавляем каждую ссылку с её порядковым номером
     for index, link in enumerate(proxies, start=1):
-        html_content += f'        <a href="{link}" class="proxy-link">#{index} Подключить</a>\n'
+        # Магия здесь: превращаем веб-ссылки в глубокие ссылки для приложения Телеграм
+        tg_apps_link = link
+        if tg_apps_link.startswith("https://t.me/"):
+            tg_apps_link = tg_apps_link.replace("https://t.me/", "tg://")
+        elif tg_apps_link.startswith("https://telegram.me/"):
+            tg_apps_link = tg_apps_link.replace("https://telegram.me/", "tg://")
 
-    # Закрываем сетку и добавляем JavaScript для отслеживания кликов
+        html_content += f'        <a href="{tg_apps_link}" class="proxy-link">#{index} Подключить</a>\n'
+
+    # Закрываем сетку и добавляем JavaScript
     html_content += """    </div>
 
     <script>
-        // Скрипт отслеживает клики по кнопкам
         document.querySelectorAll('.proxy-link').forEach(button => {
             button.addEventListener('click', function() {
-                // Добавляем класс, который перекрасит кнопку в красный цвет
                 this.classList.add('clicked');
             });
         });
