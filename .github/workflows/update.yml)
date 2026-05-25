@@ -1,0 +1,33 @@
+name: Update Proxies Site
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # Запуск каждые 12 часов
+  workflow_dispatch: # Кнопка для ручного запуска тестирования
+
+permissions:
+  contents: write # Разрешение на запись в репозиторий
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate new index.html
+        run: python update.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          # Делаем коммит только если файл изменился
+          git commit -m "Автоматическое обновление прокси-листа [skip ci]" || echo "Нет изменений для коммита"
+          git push
