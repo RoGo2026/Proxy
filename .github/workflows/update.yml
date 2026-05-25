@@ -2,7 +2,7 @@ name: Update Proxies Site
 
 on:
   schedule:
-    - cron: '0 */12 * * *' # Запуск каждые 12 часов
+    - cron: '*/30 * * * *' # Запуск каждые 30 минут
   workflow_dispatch: # Кнопка для ручного запуска тестирования
 
 permissions:
