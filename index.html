@@ -26,7 +26,7 @@
             font-size: 20px;
         }
         .counter {
-            background-color: #222;
+            background-color: #2e7d32; /* Сделали зеленым, раз они рабочие */
             color: white;
             padding: 6px 14px;
             border-radius: 20px;
@@ -41,7 +41,7 @@
         .proxy-link {
             display: block;
             flex: 1 1 calc(33.333% - 10px);
-            min-width: 130px;
+            min-width: 140px;
             background-color: #0088cc;
             color: white;
             padding: 12px 8px;
@@ -52,6 +52,16 @@
             font-size: 14px;
             box-sizing: border-box;
             transition: background-color 0.2s;
+            /* Добавили flex, чтобы красиво разместить текст и пинг */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .ping-text {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 4px;
         }
         .proxy-link:active {
             background-color: #006699;
@@ -75,117 +85,38 @@
 
     <div class="header-container">
         <h2>MTProto Прокси</h2>
-        <div class="counter">Всего: 107</div>
+        <div class="counter">Работает: 28</div>
     </div>
 
     <div class="proxy-grid">
-        <a href="tg://proxy?server=collider.web-yektanet-com.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#1 Подключить</a>
-        <a href="tg://proxy?server=total.beyondeson-co.cfd&port=443&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#2 Подключить</a>
-        <a href="tg://proxy?server=weblog.forwarding-co.site&port=443&secret=eeNEgYdJvXrFGRMCIMJdCQRueWVrdGFuZXQuY29tZmFyYWthdi5jb212YW4ubmFqdmEuY29tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" class="proxy-link">#3 Подключить</a>
-        <a href="tg://proxy?server=Shoting.forwarding-co.site.&port=44300&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#4 Подключить</a>
-        <a href="tg://proxy?server=general.irancell-ir.cfd&port=443&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#5 Подключить</a>
-        <a href="tg://proxy?server=www.merco-karco.website&port=443&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#6 Подключить</a>
-        <a href="tg://proxy?server=Ashkoda-Best.gabrial-batistuta.shop&port=443&secret=eeNEgYdJvXrFGRMCIMJdCQRueWVrdGFuZXQuY29tZmFyYWthdi5jb212YW4ubmFqdmEuY29tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" class="proxy-link">#7 Подключить</a>
-        <a href="tg://proxy?server=186.246.16.232&port=443&secret=eec11798ab008831b474066c9e1ebf5c81617669746f2e7275" class="proxy-link">#8 Подключить</a>
-        <a href="tg://proxy?server=195.133.20.10&port=443&secret=7sEXmKsAiDG0dAZsnh6_XIJhdml0by5ydQ" class="proxy-link">#9 Подключить</a>
-        <a href="tg://proxy?server=m.proxytg.space&port=8443&secret=ee80ef2a7832ccab1a02cdad0a958a027a6d2e70726f787974672e7370616365" class="proxy-link">#10 Подключить</a>
-        <a href="tg://proxy?server=s.proxytg.space&port=8443&secret=eefefc4f17248e59437bb451447a9170b2732e70726f787974672e7370616365" class="proxy-link">#11 Подключить</a>
-        <a href="tg://proxy?server=speed.chunkycorp.shop&port=443&secret=ee3a3365be03d6bc13518d65e70a3146c2617669746f2e7275" class="proxy-link">#12 Подключить</a>
-        <a href="tg://proxy?server=195.133.20.10&port=443&secret=eec11798ab008831b474066c9e1ebf5c82617669746f2e7275" class="proxy-link">#13 Подключить</a>
-        <a href="tg://proxy?server=dreams.nolags.pw&port=443&secret=dd2d558135931b5e0c5da5e7501724b32c" class="proxy-link">#14 Подключить</a>
-        <a href="tg://proxy?server=31.207.5.58&port=443&secret=ee997f8741c0919f7b1e8a2c47d9bc1b106d61782e7275" class="proxy-link">#15 Подключить</a>
-        <a href="tg://proxy?server=another.life.mambabot.net&port=4515&secret=eec485b564c0178c338d8bf4f3f17539c4613234382e652e616b616d61692e6e6574" class="proxy-link">#16 Подключить</a>
-        <a href="tg://proxy?server=server-1.shustrik.world&port=443&secret=ee53fed7a45b8fcb2ef5a2e0223c76bb4e766b766964656f2e7275" class="proxy-link">#17 Подключить</a>
-        <a href="tg://proxy?server=62.60.228.136&port=443&secret=ee4fdb47b5c93d2b46c0c155b90106418379616e6465782e7275" class="proxy-link">#18 Подключить</a>
-        <a href="tg://proxy?server=www.tproxy.monster&port=2053&secret=ee104462821249bd7ac519130220c25d096d61696c2e7275" class="proxy-link">#19 Подключить</a>
-        <a href="tg://proxy?server=tproxy.monster&port=2053&secret=ee104462821249bd7ac519130220c25d096d61696c2e7275" class="proxy-link">#20 Подключить</a>
-        <a href="tg://proxy?server=tavakalta-alalah.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#21 Подключить</a>
-        <a href="tg://proxy?server=khoda.hafez.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#22 Подключить</a>
-        <a href="tg://proxy?server=reboot.tikla.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#23 Подключить</a>
-        <a href="tg://proxy?server=tee.mobemouy.com&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#24 Подключить</a>
-        <a href="tg://proxy?server=91.107.255.20&port=2053&secret=dd35d7424b53edfa76f525c4a028ed4e7b" class="proxy-link">#25 Подключить</a>
-        <a href="tg://proxy?server=91.107.155.175&port=2053&secret=dd24080aaebdec954f4e0337c6e20fde3e" class="proxy-link">#26 Подключить</a>
-        <a href="tg://proxy?server=iran.quickdl.info.&port=443&secret=ee79e7010200010007f0030386e24c3add68656c702e737465616d706f77657265642e636f6d" class="proxy-link">#27 Подключить</a>
-        <a href="tg://proxy?server=www.qatar-railways.info.&port=443&secret=ee79e7010200010007f0030386e24c3add68656c702e737465616d706f77657265642e636f6d" class="proxy-link">#28 Подключить</a>
-        <a href="tg://proxy?server=paitakht.arasto.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#29 Подключить</a>
-        <a href="tg://proxy?server=185.117.0.248&port=443&secret=eed451f808fd60ed2c45f11d38fdbc87c57961686f6f2e636f6d" class="proxy-link">#30 Подключить</a>
-        <a href="tg://proxy?server=ader.dynoporo.com&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#31 Подключить</a>
-        <a href="tg://proxy?server=5.75.197.246&port=443&secret=ddc333a2a17e2be71f9cf1887f3b22dc7d" class="proxy-link">#32 Подключить</a>
-        <a href="tg://proxy?server=sabr.ssboriat.co.uk&port=531&secret=FgMBAgABAAH8AwOG4kw63Q%3D%3D" class="proxy-link">#33 Подключить</a>
-        <a href="tg://proxy?server=yazdan.htop.info&port=443&secret=ee1603010200010001fc030386e24c3add626973636f7474692e79656b74616e65742e636f6d" class="proxy-link">#34 Подключить</a>
-        <a href="tg://proxy?server=65.109.146.207&port=443&secret=3XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt03XnnAQIAAQAH8AMDhuJMOt0" class="proxy-link">#35 Подключить</a>
-        <a href="tg://proxy?server=www.humaontop.space&port=443&secret=3XnnAQIAAQAH8AMDhuJMOt0" class="proxy-link">#36 Подключить</a>
-        <a href="tg://proxy?server=vaslshid.co.uk.&port=85&secret=FgMBAgABAAH8AxOG4kw63Q%3D%3D" class="proxy-link">#37 Подключить</a>
-        <a href="tg://proxy?server=194.120.230.106&port=433&secret=3XnnAQIAAQAH8AMDhuJMOt0" class="proxy-link">#38 Подключить</a>
-        <a href="tg://proxy?server=46.225.29.180&port=443&secret=ee636c6f7564666c6172652e636f6db6" class="proxy-link">#39 Подключить</a>
-        <a href="tg://proxy?server=116.203.134.165&port=443&secret=ee636c6f7564666c6172652e636f6db6" class="proxy-link">#40 Подключить</a>
-        <a href="tg://proxy?server=https-cdn-ddns.itdeveloper.info.&port=88&secret=7nnnAQIAAQAH8AMDhuJMOt0%3D" class="proxy-link">#41 Подключить</a>
-        <a href="tg://proxy?server=77.72.80.77&port=9443&secret=79e344818749bd7ac519130220c25d09" class="proxy-link">#42 Подключить</a>
-        <a href="tg://proxy?server=89.167.104.111&port=443&secret=b3f0c7f6af7dc2dc2e9c80d0d80e8162" class="proxy-link">#43 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.252&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#44 Подключить</a>
-        <a href="tg://proxy?server=77.72.80.80&port=9443&secret=79e344818749bd7ac519130220c25d09" class="proxy-link">#45 Подключить</a>
-        <a href="tg://proxy?server=78.17.71.42&port=443&secret=eeec75b855ebcc01c982f3e013af8ed92a7777772e79616e6465782e7275" class="proxy-link">#46 Подключить</a>
-        <a href="tg://proxy?server=178.104.98.160&port=443&secret=ee636c6f7564666c6172652e636f6db6" class="proxy-link">#47 Подключить</a>
-        <a href="tg://proxy?server=92.118.234.215&port=443&secret=dddb9b51b5ce9a2820ff62d348cb23f1b9" class="proxy-link">#48 Подключить</a>
-        <a href="tg://proxy?server=178.104.244.158&port=8080&secret=dd104462821249bd7ac519130220c25d09" class="proxy-link">#49 Подключить</a>
-        <a href="tg://proxy?server=77.72.80.86&port=443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#50 Подключить</a>
-        <a href="tg://proxy?server=fastproxy.chunkycorp.shop&port=443&secret=ee3a3365be03d6bc13518d65e70a3146c2706574726f766963682e7275" class="proxy-link">#51 Подключить</a>
-        <a href="tg://proxy?server=mt.nowaboost.com&port=853&secret=4fd95a487c5c87ae82b6639a9b6b5ff2" class="proxy-link">#52 Подключить</a>
-        <a href="tg://proxy?server=5.181.0.202&port=443&secret=eec11798ab008831b474066c9e1ebf5c96617669746f2e7275" class="proxy-link">#53 Подключить</a>
-        <a href="tg://proxy?server=mt.nowabst.com&port=853&secret=7t16ej1vTPH3w_rpz_KLc3lhZHMueDUucnU" class="proxy-link">#54 Подключить</a>
-        <a href="tg://proxy?server=alpinavpn.hatecens.cc&port=7443&secret=eef8dc254a4c2af8afcab54c8a5f9bb4fb616c70696e6176706e2e6861746563656e732e6363" class="proxy-link">#55 Подключить</a>
-        <a href="tg://proxy?server=82.114.228.74&port=443&secret=ee4cc83d19c09c796a4dffdd136cf06a226d61782e7275" class="proxy-link">#56 Подключить</a>
-        <a href="tg://proxy?server=hop2.proxytg.space&port=443&secret=eec5428740a808240ccf21f21547fc843f6d61782e7275" class="proxy-link">#57 Подключить</a>
-        <a href="tg://proxy?server=89.167.103.249&port=443&secret=dd104462821249bd7ac519130220c25d09" class="proxy-link">#58 Подключить</a>
-        <a href="tg://proxy?server=hop3.proxytg.space&port=443&secret=ee8e8e148190ecbc4cda5090ec52e9613e6d61782e7275" class="proxy-link">#59 Подключить</a>
-        <a href="tg://proxy?server=q.hq-1337.win&port=443&secret=ee84ea5a1d188a32e3905389660fa0bfab706574726f766963682e7275" class="proxy-link">#60 Подключить</a>
-        <a href="tg://proxy?server=artt.proxytg.space&port=443&secret=ee859265446d8bb72e53291612281d57e26d61782e7275" class="proxy-link">#61 Подключить</a>
-        <a href="tg://proxy?server=babs.proxytg.space&port=443&secret=ee7e0cfbf200d8528bccf91edc951c72a46d61782e7275" class="proxy-link">#62 Подключить</a>
-        <a href="tg://proxy?server=win.sosproxy.space&port=443&secret=ee477ccce74a28c13a2ef6ec9e01510c3164726976652e676f6f676c652e636f6d" class="proxy-link">#63 Подключить</a>
-        <a href="tg://proxy?server=195.133.20.10&port=443&secret=eec11798ab008831b474066c9e1ebf5c86617669746f2e7275" class="proxy-link">#64 Подключить</a>
-        <a href="tg://proxy?server=plg-proxy.duckdns.org&port=9443&secret=7nI_RL0Z_1CkMYeMay0LRqBwbGctcHJveHkuZHVja2Rucy5vcmc" class="proxy-link">#65 Подключить</a>
-        <a href="tg://proxy?server=89.35.131.217&port=443&secret=ee21406fa1321a733a9fe7edd39ddbe4fe7777772e79616e6465782e7275" class="proxy-link">#66 Подключить</a>
-        <a href="tg://proxy?server=2.26.99.245&port=8443&secret=ee17263409876123456712342349876554322e32362e39392e323435" class="proxy-link">#67 Подключить</a>
-        <a href="tg://proxy?server=176.125.240.195&port=443&secret=eeae49fc0cb49514612b72494665fffa167777772e79616e6465782e7275" class="proxy-link">#68 Подключить</a>
-        <a href="tg://proxy?server=tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link">#69 Подключить</a>
-        <a href="tg://proxy?server=dream.nolags.pw&port=443&secret=dd9b8378a9bc2bfc1eb0bed0c2b3ba7584" class="proxy-link">#70 Подключить</a>
-        <a href="tg://proxy?server=31.56.229.49&port=443&secret=ee4e8084b6d0f3a39986ceb5fab26859ee7777772e6d6963726f736f66742e636f6d" class="proxy-link">#71 Подключить</a>
-        <a href="tg://proxy?server=72.56.41.35&port=443&secret=eec11798ab008831b474066c9e1ebf5c85617669746f2e7275" class="proxy-link">#72 Подключить</a>
-        <a href="tg://proxy?server=91.239.192.173&port=140409&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#73 Подключить</a>
-        <a href="tg://proxy?server=77.72.80.82&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#74 Подключить</a>
-        <a href="tg://proxy?server=185.3.200.185&port=2053&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#75 Подключить</a>
-        <a href="tg://proxy?server=g.proxytg.space&port=8443&secret=eedc41bbb2f33136f9e5f58f258e2f5a8a672e70726f787974672e7370616365" class="proxy-link">#76 Подключить</a>
-        <a href="tg://proxy?server=s3.neo-trading.org&port=443&secret=eec3fefd89a25d37ca3af1a602c7bfd8de79612e7275" class="proxy-link">#77 Подключить</a>
-        <a href="tg://proxy?server=s4.neo-trading.org&port=443&secret=ee181e2ad5e63c27262781187f2dedc4bb79612e7275" class="proxy-link">#78 Подключить</a>
-        <a href="tg://proxy?server=www.tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link">#79 Подключить</a>
-        <a href="tg://proxy?server=178.105.150.126&port=443&secret=eec96b6d60154b353e16b514651c87f15b676f6f676c65617069732e636f6d" class="proxy-link">#80 Подключить</a>
-        <a href="tg://proxy?server=178.105.141.172&port=443&secret=ee8db761231b91c7c07ac0a6e7323ad41b676f6f676c65617069732e636f6d" class="proxy-link">#81 Подключить</a>
-        <a href="tg://proxy?server=amoreszi.duckdns.org&port=443&secret=7uZ0yg4fr7vIQ5i_MUfeWQB3d3cuYXBwbGUuY29t" class="proxy-link">#82 Подключить</a>
-        <a href="tg://proxy?server=hotmtpro2.duckdns.org&port=443&secret=7kBjzU5SbZqTzIJZZEf4Tvp3d3cubWljcm9zb2Z0LmNvbQ" class="proxy-link">#83 Подключить</a>
-        <a href="tg://proxy?server=rus1.mtproxygram.pro&port=443&secret=eefbee6e61d427a84d26b97590a8f63bab62726f777365722e79616e6465782e636f6d" class="proxy-link">#84 Подключить</a>
-        <a href="tg://proxy?server=rus2.mtproxygram.pro&port=443&secret=ee1a420d0518e4347a059fcb4c9a46deb362726f777365722e79616e6465782e636f6d" class="proxy-link">#85 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.249&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#86 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.250&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#87 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.251&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#88 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.253&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#89 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.247&port=25565&secret=dd79e344818749bd7ac519130220c25d09" class="proxy-link">#90 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.73&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#91 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.212&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#92 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.169&port=2053&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#93 Подключить</a>
-        <a href="tg://proxy?server=91.239.192.153&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#94 Подключить</a>
-        <a href="tg://proxy?server=185.3.200.172&port=2053&secret=ee1603010200010001fc030386e24c3add626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#95 Подключить</a>
-        <a href="tg://proxy?server=185.3.200.186&port=2054&secret=ee1603010200010001fc030386e24c3ad3626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#96 Подключить</a>
-        <a href="tg://proxy?server=91.239.192.154&port=7443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#97 Подключить</a>
-        <a href="tg://proxy?server=185.3.200.191&port=2053&secret=ee1603010200010001fc030386e24c3ad3626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#98 Подключить</a>
-        <a href="tg://proxy?server=185.3.200.136&port=4455&secret=ee1603010200010001fc030386e24c3ad3626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#99 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.211&port=4455&secret=ee1603010200010001fc030386e24c3ad3626973636F7474692E79656B74616E65742E636F6D" class="proxy-link">#100 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.23&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#101 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.71&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#102 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.168&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#103 Подключить</a>
-        <a href="tg://proxy?server=91.239.192.172&port=140409&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#104 Подключить</a>
-        <a href="tg://proxy?server=91.239.192.175&port=140409&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#105 Подключить</a>
-        <a href="tg://proxy?server=185.84.157.102&port=9443&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#106 Подключить</a>
-        <a href="tg://proxy?server=195.254.165.233&port=65535&secret=eeNEgYdJvXrFGRMCIMJdCQ" class="proxy-link">#107 Подключить</a>
+        <a href="tg://proxy?server=dreams.nolags.pw&port=443&secret=dd2d558135931b5e0c5da5e7501724b32c" class="proxy-link"><span>#1 Подключить</span><span class="ping-text">Пинг: 90 мс</span></a>
+        <a href="tg://proxy?server=89.35.131.217&port=443&secret=ee21406fa1321a733a9fe7edd39ddbe4fe7777772e79616e6465782e7275" class="proxy-link"><span>#2 Подключить</span><span class="ping-text">Пинг: 120 мс</span></a>
+        <a href="tg://proxy?server=186.246.16.232&port=443&secret=eec11798ab008831b474066c9e1ebf5c81617669746f2e7275" class="proxy-link"><span>#3 Подключить</span><span class="ping-text">Пинг: 125 мс</span></a>
+        <a href="tg://proxy?server=5.181.0.202&port=443&secret=eec11798ab008831b474066c9e1ebf5c96617669746f2e7275" class="proxy-link"><span>#4 Подключить</span><span class="ping-text">Пинг: 136 мс</span></a>
+        <a href="tg://proxy?server=2.26.99.245&port=8443&secret=ee17263409876123456712342349876554322e32362e39392e323435" class="proxy-link"><span>#5 Подключить</span><span class="ping-text">Пинг: 137 мс</span></a>
+        <a href="tg://proxy?server=178.105.141.172&port=443&secret=ee8db761231b91c7c07ac0a6e7323ad41b676f6f676c65617069732e636f6d" class="proxy-link"><span>#6 Подключить</span><span class="ping-text">Пинг: 137 мс</span></a>
+        <a href="tg://proxy?server=178.105.150.126&port=443&secret=eec96b6d60154b353e16b514651c87f15b676f6f676c65617069732e636f6d" class="proxy-link"><span>#7 Подключить</span><span class="ping-text">Пинг: 138 мс</span></a>
+        <a href="tg://proxy?server=178.104.244.158&port=8080&secret=dd104462821249bd7ac519130220c25d09" class="proxy-link"><span>#8 Подключить</span><span class="ping-text">Пинг: 140 мс</span></a>
+        <a href="tg://proxy?server=78.17.71.42&port=443&secret=eeec75b855ebcc01c982f3e013af8ed92a7777772e79616e6465782e7275" class="proxy-link"><span>#9 Подключить</span><span class="ping-text">Пинг: 142 мс</span></a>
+        <a href="tg://proxy?server=176.125.240.195&port=443&secret=eeae49fc0cb49514612b72494665fffa167777772e79616e6465782e7275" class="proxy-link"><span>#10 Подключить</span><span class="ping-text">Пинг: 144 мс</span></a>
+        <a href="tg://proxy?server=62.60.228.136&port=443&secret=ee4fdb47b5c93d2b46c0c155b90106418379616e6465782e7275" class="proxy-link"><span>#11 Подключить</span><span class="ping-text">Пинг: 147 мс</span></a>
+        <a href="tg://proxy?server=89.167.103.249&port=443&secret=dd104462821249bd7ac519130220c25d09" class="proxy-link"><span>#12 Подключить</span><span class="ping-text">Пинг: 161 мс</span></a>
+        <a href="tg://proxy?server=89.167.104.111&port=443&secret=b3f0c7f6af7dc2dc2e9c80d0d80e8162" class="proxy-link"><span>#13 Подключить</span><span class="ping-text">Пинг: 162 мс</span></a>
+        <a href="tg://proxy?server=vaslshid.co.uk.&port=85&secret=FgMBAgABAAH8AxOG4kw63Q%3D%3D" class="proxy-link"><span>#14 Подключить</span><span class="ping-text">Пинг: 164 мс</span></a>
+        <a href="tg://proxy?server=92.118.234.215&port=443&secret=dddb9b51b5ce9a2820ff62d348cb23f1b9" class="proxy-link"><span>#15 Подключить</span><span class="ping-text">Пинг: 170 мс</span></a>
+        <a href="tg://proxy?server=hotmtpro2.duckdns.org&port=443&secret=7kBjzU5SbZqTzIJZZEf4Tvp3d3cubWljcm9zb2Z0LmNvbQ" class="proxy-link"><span>#16 Подключить</span><span class="ping-text">Пинг: 199 мс</span></a>
+        <a href="tg://proxy?server=another.life.mambabot.net&port=4515&secret=eec485b564c0178c338d8bf4f3f17539c4613234382e652e616b616d61692e6e6574" class="proxy-link"><span>#17 Подключить</span><span class="ping-text">Пинг: 208 мс</span></a>
+        <a href="tg://proxy?server=alpinavpn.hatecens.cc&port=7443&secret=eef8dc254a4c2af8afcab54c8a5f9bb4fb616c70696e6176706e2e6861746563656e732e6363" class="proxy-link"><span>#18 Подключить</span><span class="ping-text">Пинг: 258 мс</span></a>
+        <a href="tg://proxy?server=g.proxytg.space&port=8443&secret=eedc41bbb2f33136f9e5f58f258e2f5a8a672e70726f787974672e7370616365" class="proxy-link"><span>#19 Подключить</span><span class="ping-text">Пинг: 287 мс</span></a>
+        <a href="tg://proxy?server=tproxy.monster&port=2053&secret=ee104462821249bd7ac519130220c25d096d61696c2e7275" class="proxy-link"><span>#20 Подключить</span><span class="ping-text">Пинг: 288 мс</span></a>
+        <a href="tg://proxy?server=www.tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#21 Подключить</span><span class="ping-text">Пинг: 288 мс</span></a>
+        <a href="tg://proxy?server=www.tproxy.monster&port=2053&secret=ee104462821249bd7ac519130220c25d096d61696c2e7275" class="proxy-link"><span>#22 Подключить</span><span class="ping-text">Пинг: 295 мс</span></a>
+        <a href="tg://proxy?server=win.sosproxy.space&port=443&secret=ee477ccce74a28c13a2ef6ec9e01510c3164726976652e676f6f676c652e636f6d" class="proxy-link"><span>#23 Подключить</span><span class="ping-text">Пинг: 301 мс</span></a>
+        <a href="tg://proxy?server=tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#24 Подключить</span><span class="ping-text">Пинг: 309 мс</span></a>
+        <a href="tg://proxy?server=mt.nowaboost.com&port=853&secret=4fd95a487c5c87ae82b6639a9b6b5ff2" class="proxy-link"><span>#25 Подключить</span><span class="ping-text">Пинг: 573 мс</span></a>
+        <a href="tg://proxy?server=s3.neo-trading.org&port=443&secret=eec3fefd89a25d37ca3af1a602c7bfd8de79612e7275" class="proxy-link"><span>#26 Подключить</span><span class="ping-text">Пинг: 1279 мс</span></a>
+        <a href="tg://proxy?server=s.proxytg.space&port=8443&secret=eefefc4f17248e59437bb451447a9170b2732e70726f787974672e7370616365" class="proxy-link"><span>#27 Подключить</span><span class="ping-text">Пинг: 2139 мс</span></a>
+        <a href="tg://proxy?server=amoreszi.duckdns.org&port=443&secret=7uZ0yg4fr7vIQ5i_MUfeWQB3d3cuYXBwbGUuY29t" class="proxy-link"><span>#28 Подключить</span><span class="ping-text">Пинг: 4226 мс</span></a>
     </div>
 
     <script>
