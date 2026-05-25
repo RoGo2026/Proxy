@@ -3,32 +3,52 @@ import socket
 import time
 from urllib.parse import parse_qs
 import concurrent.futures
+import re
+import html
 
-# ПРАВИЛЬНАЯ ссылка на сырой текст (raw)
-URL = "https://raw.githubusercontent.com/MahsaNetConfigTopic/proxy/refs/heads/main/proxies.txt"
+# --- НАСТРОЙКИ ---
+# Впиши сюда юзернейм публичного телеграм-канала (без @)
+CHANNEL_NAME = "YOUR_CHANNEL" # <-- Поменяй на нужный канал
 TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера
 
-def normalize_link(link):
-    """
-    Универсальный преобразователь ссылок.
-    Берет любую ссылку, находит параметры и делает из нее правильную tg://
-    """
-    link = link.strip()
-    # Если в строке есть параметры прокси
-    if "proxy?" in link:
-        # Отрезаем всё, что было ДО "proxy?", и берем только правую часть с параметрами
-        params = link.split("proxy?")[1]
-        # Собираем идеальную ссылку для мобильного приложения
-        return f"tg://proxy?{params}"
+def fetch_links_from_telegram(channel):
+    """Парсит веб-версию публичного Telegram-канала и достает все ссылки на прокси"""
+    url = f"https://t.me/s/{channel}"
+    print(f"Подключаюсь к каналу: {url}")
     
-    # Если это не прокси (например, пустая строка или комментарий в файле)
+    try:
+        # Притворяемся браузером, чтобы Телеграм нас не заблокировал
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+        response = urllib.request.urlopen(req)
+        html_content = response.read().decode('utf-8')
+    except Exception as e:
+        print(f"Ошибка при загрузке канала: {e}")
+        return []
+
+    # Ищем все ссылки, которые начинаются на https://t.me/proxy?
+    # Регулярное выражение ищет куски текста по паттерну
+    pattern = r'(https://t\.me/proxy\?[^"\']+)'
+    raw_links = re.findall(pattern, html_content)
+    
+    # Декодируем HTML-символы (например, &amp; превращаем обратно в &)
+    clean_links = [html.unescape(link) for link in raw_links]
+    
+    # Удаляем дубликаты (в каналах часто репостят одни и те же ссылки)
+    unique_links = list(set(clean_links))
+    
+    return unique_links
+
+def normalize_link(link):
+    """Превращает веб-ссылку в правильную ссылку для приложения tg://"""
+    if "proxy?" in link:
+        params = link.split("proxy?")[1]
+        return f"tg://proxy?{params}"
     return None
 
 def check_proxy(link):
     """Проверяет доступность порта сервера и возвращает пинг в мс."""
     try:
-        if "?" not in link:
-            return None
+        if "?" not in link: return None
         
         query = link.split("?")[1]
         params = parse_qs(query)
@@ -36,8 +56,7 @@ def check_proxy(link):
         server = params.get("server", [None])[0]
         port_str = params.get("port", [None])[0]
         
-        if not server or not port_str:
-            return None
+        if not server or not port_str: return None
             
         port = int(port_str)
         
@@ -53,23 +72,23 @@ def check_proxy(link):
         return None
 
 def fetch_and_generate():
-    try:
-        response = urllib.request.urlopen(URL)
-        lines = response.read().decode('utf-8').splitlines()
-    except Exception as e:
-        print(f"Ошибка при скачивании файла: {e}")
+    # 1. Забираем ссылки прямо из Телеграм-канала
+    raw_proxies = fetch_links_from_telegram(CHANNEL_NAME)
+    
+    if not raw_proxies:
+        print("Не удалось найти прокси в канале. Возможно, канал приватный или пустой.")
         return
 
-    # 1. Читаем файл и приводим ВСЕ ссылки к единому формату tg://
+    # 2. Приводим все ссылки к формату tg://
     tg_proxies = []
-    for line in lines:
-        clean_link = normalize_link(line)
-        if clean_link: # Если ссылка корректно преобразовалась
+    for link in raw_proxies:
+        clean_link = normalize_link(link)
+        if clean_link:
             tg_proxies.append(clean_link)
 
-    print(f"Найдено ссылок в файле: {len(tg_proxies)}. Начинаю проверку пинга...")
+    print(f"Найдено уникальных ссылок в канале: {len(tg_proxies)}. Начинаю проверку пинга...")
 
-    # 2. Многопоточная проверка серверов
+    # 3. Многопоточная проверка серверов
     working_proxies = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         results = executor.map(check_proxy, tg_proxies)
@@ -77,13 +96,13 @@ def fetch_and_generate():
             if result is not None:
                 working_proxies.append(result)
 
-    # 3. Сортируем по пингу
+    # 4. Сортируем по пингу
     working_proxies.sort(key=lambda x: x["ping"])
     total_count = len(working_proxies)
     
     print(f"Осталось живых прокси: {total_count}")
 
-    # 4. Формируем HTML
+    # 5. Формируем HTML
     html_content = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
