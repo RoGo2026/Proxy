@@ -27,11 +27,13 @@ jobs:
     - name: Собираем новые прокси и дописываем в файл
       run: python proxy_parser.py
     # -----------------------
+
     - name: Commit and Push changes
       run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add index.html
-          # Делаем коммит только если файл изменился
-          git commit -m "Автоматическое обновление прокси-листа [skip ci]" || echo "Нет изменений для коммита"
-          git push
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add index.html
+        git add proxies.txt
+        # Делаем коммит только если файлы изменились
+        git commit -m "Автоматическое обновление прокси-листа [skip ci]" || echo "Нет изменений для коммита"
+        git push
