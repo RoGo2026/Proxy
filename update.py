@@ -4,14 +4,29 @@ import time
 from urllib.parse import parse_qs
 import concurrent.futures
 
-# Прямая ссылка на сырой текстовый файл
-URL = "https://github.com/Argh94/Proxy-List/blob/main/MTProto.txt"
-TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера (в секундах)
+# ПРАВИЛЬНАЯ ссылка на сырой текст (raw)
+URL = "https://raw.githubusercontent.com/Argh94/Proxy-List/main/MTProto.txt"
+TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера
+
+def normalize_link(link):
+    """
+    Универсальный преобразователь ссылок.
+    Берет любую ссылку, находит параметры и делает из нее правильную tg://
+    """
+    link = link.strip()
+    # Если в строке есть параметры прокси
+    if "proxy?" in link:
+        # Отрезаем всё, что было ДО "proxy?", и берем только правую часть с параметрами
+        params = link.split("proxy?")[1]
+        # Собираем идеальную ссылку для мобильного приложения
+        return f"tg://proxy?{params}"
+    
+    # Если это не прокси (например, пустая строка или комментарий в файле)
+    return None
 
 def check_proxy(link):
-    """Проверяет доступность порта сервера и возвращает пинг в мс. Если недоступен - возвращает None."""
+    """Проверяет доступность порта сервера и возвращает пинг в мс."""
     try:
-        # Извлекаем параметры из ссылки (ищем server и port)
         if "?" not in link:
             return None
         
@@ -26,18 +41,15 @@ def check_proxy(link):
             
         port = int(port_str)
         
-        # Засекаем время и пытаемся подключиться к порту (TCP Ping)
         start_time = time.time()
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(TIMEOUT)
             s.connect((server, port))
         
-        # Считаем пинг в миллисекундах
         ping_ms = int((time.time() - start_time) * 1000)
         return {"link": link, "ping": ping_ms}
         
     except Exception:
-        # Если таймаут, сервер не найден или порт закрыт — прокси мертв
         return None
 
 def fetch_and_generate():
@@ -48,21 +60,16 @@ def fetch_and_generate():
         print(f"Ошибка при скачивании файла: {e}")
         return
 
-    # Отфильтровываем пустые строки и переделываем ссылки в tg://
-    raw_proxies = [line.strip() for line in lines if line.strip()]
+    # 1. Читаем файл и приводим ВСЕ ссылки к единому формату tg://
     tg_proxies = []
-    
-    for link in raw_proxies:
-        tg_link = link
-        if tg_link.startswith("https://t.me/"):
-            tg_link = tg_link.replace("https://t.me/", "tg://")
-        elif tg_link.startswith("https://telegram.me/"):
-            tg_link = tg_link.replace("https://telegram.me/", "tg://")
-        tg_proxies.append(tg_link)
+    for line in lines:
+        clean_link = normalize_link(line)
+        if clean_link: # Если ссылка корректно преобразовалась
+            tg_proxies.append(clean_link)
 
-    print(f"Скачано ссылок: {len(tg_proxies)}. Начинаю проверку на работоспособность...")
+    print(f"Найдено ссылок в файле: {len(tg_proxies)}. Начинаю проверку пинга...")
 
-    # Многопоточная проверка (проверяем сразу по 20 штук одновременно)
+    # 2. Многопоточная проверка серверов
     working_proxies = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         results = executor.map(check_proxy, tg_proxies)
@@ -70,13 +77,13 @@ def fetch_and_generate():
             if result is not None:
                 working_proxies.append(result)
 
-    # Сортируем рабочие прокси по пингу (от меньшего к большему)
+    # 3. Сортируем по пингу
     working_proxies.sort(key=lambda x: x["ping"])
     total_count = len(working_proxies)
     
-    print(f"Осталось рабочих прокси: {total_count}")
+    print(f"Осталось живых прокси: {total_count}")
 
-    # Формируем HTML-каркас
+    # 4. Формируем HTML
     html_content = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -99,26 +106,21 @@ def fetch_and_generate():
             padding-bottom: 10px;
             margin-bottom: 20px;
         }}
-        h2 {{
-            margin: 0;
-            color: #333;
-            font-size: 20px;
-        }}
+        h2 {{ margin: 0; color: #333; font-size: 20px; }}
         .counter {{
-            background-color: #2e7d32; /* Сделали зеленым, раз они рабочие */
+            background-color: #2e7d32;
             color: white;
             padding: 6px 14px;
             border-radius: 20px;
             font-weight: bold;
             font-size: 14px;
         }}
-        .proxy-grid {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }}
+        .proxy-grid {{ display: flex; flex-wrap: wrap; gap: 10px; }}
         .proxy-link {{
-            display: block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             flex: 1 1 calc(33.333% - 10px);
             min-width: 140px;
             background-color: #0088cc;
@@ -126,38 +128,16 @@ def fetch_and_generate():
             padding: 12px 8px;
             text-decoration: none;
             border-radius: 6px;
-            text-align: center;
             font-weight: bold;
             font-size: 14px;
             box-sizing: border-box;
             transition: background-color 0.2s;
-            /* Добавили flex, чтобы красиво разместить текст и пинг */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }}
-        .ping-text {{
-            font-size: 11px;
-            opacity: 0.8;
-            margin-top: 4px;
-        }}
-        .proxy-link:active {{
-            background-color: #006699;
-        }}
-        .proxy-link.clicked {{
-            background-color: #d9534f;
-        }}
-        @media (max-width: 600px) {{
-            .proxy-link {{
-                flex: 1 1 calc(50% - 10px);
-            }}
-        }}
-        @media (max-width: 360px) {{
-            .proxy-link {{
-                flex: 1 1 100%;
-            }}
-        }}
+        .ping-text {{ font-size: 11px; opacity: 0.8; margin-top: 4px; font-weight: normal; }}
+        .proxy-link:active {{ background-color: #006699; }}
+        .proxy-link.clicked {{ background-color: #d9534f; }}
+        @media (max-width: 600px) {{ .proxy-link {{ flex: 1 1 calc(50% - 10px); }} }}
+        @media (max-width: 360px) {{ .proxy-link {{ flex: 1 1 100%; }} }}
     </style>
 </head>
 <body>
@@ -170,13 +150,10 @@ def fetch_and_generate():
     <div class="proxy-grid">
 """
 
-    # Добавляем каждую ссылку. Самые быстрые теперь сверху.
     for index, item in enumerate(working_proxies, start=1):
         html_content += f'        <a href="{item["link"]}" class="proxy-link"><span>#{index} Подключить</span><span class="ping-text">Пинг: {item["ping"]} мс</span></a>\n'
 
-    # Закрываем сетку и добавляем JavaScript
     html_content += """    </div>
-
     <script>
         document.querySelectorAll('.proxy-link').forEach(button => {
             button.addEventListener('click', function() {
@@ -187,7 +164,6 @@ def fetch_and_generate():
 </body>
 </html>"""
 
-    # Записываем результат в index.html
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
     
