@@ -7,39 +7,43 @@ import re
 import html
 
 # --- НАСТРОЙКИ ---
-# Впиши сюда юзернейм публичного телеграм-канала (без @)
-CHANNEL_NAME = "YOUR_CHANNEL" # <-- Поменяй на нужный канал
-TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера
+# Список публичных каналов (без знака @). Можешь удалять или добавлять свои!
+CHANNELS = ["Proxies_MTProto", "MTProtoProxies", "TelMTProto", "Proxy_MTProto"]
+TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера в секундах
 
-def fetch_links_from_telegram(channel):
-    """Парсит веб-версию публичного Telegram-канала и достает все ссылки на прокси"""
-    url = f"https://t.me/s/{channel}"
-    print(f"Подключаюсь к каналу: {url}")
+def fetch_links_from_telegram(channels_list):
+    """Обходит список Telegram-каналов и собирает уникальные ссылки на прокси"""
+    all_links = []
     
-    try:
-        # Притворяемся браузером, чтобы Телеграм нас не заблокировал
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-        response = urllib.request.urlopen(req)
-        html_content = response.read().decode('utf-8')
-    except Exception as e:
-        print(f"Ошибка при загрузке канала: {e}")
-        return []
+    for channel in channels_list:
+        url = f"https://t.me/s/{channel.strip()}"
+        print(f"Подключаюсь к каналу: {url}")
+        
+        try:
+            # Притворяемся браузером
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+            response = urllib.request.urlopen(req, timeout=5)
+            html_content = response.read().decode('utf-8')
+            
+            # Ищем ссылки формата https://t.me/proxy?
+            pattern = r'(https://t\.me/proxy\?[^"\']+)'
+            raw_links = re.findall(pattern, html_content)
+            
+            # Декодируем спецсимволы HTML
+            clean_links = [html.unescape(link) for link in raw_links]
+            all_links.extend(clean_links)
+            print(f"-> Успешно собрано ссылок: {len(clean_links)}")
+            
+        except Exception as e:
+            print(f"-> Не удалось прочитать канал {channel}: {e}")
+            continue
 
-    # Ищем все ссылки, которые начинаются на https://t.me/proxy?
-    # Регулярное выражение ищет куски текста по паттерну
-    pattern = r'(https://t\.me/proxy\?[^"\']+)'
-    raw_links = re.findall(pattern, html_content)
-    
-    # Декодируем HTML-символы (например, &amp; превращаем обратно в &)
-    clean_links = [html.unescape(link) for link in raw_links]
-    
-    # Удаляем дубликаты (в каналах часто репостят одни и те же ссылки)
-    unique_links = list(set(clean_links))
-    
+    # Удаляем дубликаты, так как каналы часто копируют прокси друг у друга
+    unique_links = list(set(all_links))
     return unique_links
 
 def normalize_link(link):
-    """Превращает веб-ссылку в правильную ссылку для приложения tg://"""
+    """Превращает веб-ссылку в глубокую ссылку для приложения tg://"""
     if "proxy?" in link:
         params = link.split("proxy?")[1]
         return f"tg://proxy?{params}"
@@ -72,37 +76,37 @@ def check_proxy(link):
         return None
 
 def fetch_and_generate():
-    # 1. Забираем ссылки прямо из Телеграм-канала
-    raw_proxies = fetch_links_from_telegram(CHANNEL_NAME)
+    # 1. Собираем базу ссылок со всех источников
+    raw_proxies = fetch_links_from_telegram(CHANNELS)
     
     if not raw_proxies:
-        print("Не удалось найти прокси в канале. Возможно, канал приватный или пустой.")
+        print("Критическая ошибка: не удалось собрать ссылки ни из одного канала.")
         return
 
-    # 2. Приводим все ссылки к формату tg://
+    # 2. Нормализуем ссылки под формат мобильного приложения
     tg_proxies = []
     for link in raw_proxies:
         clean_link = normalize_link(link)
         if clean_link:
             tg_proxies.append(clean_link)
 
-    print(f"Найдено уникальных ссылок в канале: {len(tg_proxies)}. Начинаю проверку пинга...")
+    print(f"\nВсего уникальных серверов для проверки: {len(tg_proxies)}. Запускаю TCP-пинг...")
 
-    # 3. Многопоточная проверка серверов
+    # 3. Многопоточный чек (одновременно опрашиваем по 30 серверов)
     working_proxies = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
         results = executor.map(check_proxy, tg_proxies)
         for result in results:
             if result is not None:
                 working_proxies.append(result)
 
-    # 4. Сортируем по пингу
+    # 4. Сортировка по возрастанию пинга (быстрые вверху)
     working_proxies.sort(key=lambda x: x["ping"])
     total_count = len(working_proxies)
     
-    print(f"Осталось живых прокси: {total_count}")
+    print(f"Проверка завершена! Найдено живых серверов: {total_count}")
 
-    # 5. Формируем HTML
+    # 5. Генерация красивой страницы index.html
     html_content = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -162,8 +166,8 @@ def fetch_and_generate():
 <body>
 
     <div class="header-container">
-        <h2>MTProto Прокси</h2>
-        <div class="counter">Работает: {total_count}</div>
+        <h2>MTProto Прокси (Автовыбор)</h2>
+        <div class="counter">Онлайн: {total_count}</div>
     </div>
 
     <div class="proxy-grid">
@@ -186,7 +190,7 @@ def fetch_and_generate():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
     
-    print("Генерация сайта завершена!")
+    print("Файл index.html успешно сгенерирован!")
 
 if __name__ == "__main__":
     fetch_and_generate()
