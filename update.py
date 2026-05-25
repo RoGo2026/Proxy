@@ -5,7 +5,7 @@ from urllib.parse import parse_qs
 import concurrent.futures
 
 # Прямая ссылка на сырой текстовый файл
-URL = "https://raw.githubusercontent.com/SoliSpirit/mtproto/master/all_proxies.txt"
+URL = "https://github.com/Argh94/Proxy-List/blob/main/MTProto.txt"
 TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера (в секундах)
 
 def check_proxy(link):
