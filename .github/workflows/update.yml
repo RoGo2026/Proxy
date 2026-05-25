@@ -12,19 +12,23 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Копируем репозиторий
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+    - name: Настраиваем Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-      - name: Generate new index.html
-        run: python update.py
+    # --- НАШИ НОВЫЕ ШАГИ ---
+    - name: Устанавливаем библиотеку для запросов
+      run: pip install requests
 
-      - name: Commit and Push changes
-        run: |
+    - name: Собираем новые прокси и дописываем в файл
+      run: python proxy_parser.py
+    # -----------------------
+    - name: Commit and Push changes
+      run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
