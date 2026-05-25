@@ -3,17 +3,7 @@ import time
 
 def fetch_proxies(file_path):
     links = set()
-    
-    # Сначала пытаемся прочитать старые прокси
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                if line.strip():
-                    links.add(line.strip())
-        print(f"📁 В файле до парсинга найдено: {len(links)} прокси.")
-    except FileNotFoundError:
-        print("📁 Файл пока не существует, будет создан новый.")
-        pass
+    print("📁 Собираем прокси с нуля (старые из файла будут удалены).")
         
     page = 1
     print("⏳ Начинаю сбор новых прокси с сайта...")
@@ -34,7 +24,7 @@ def fetch_proxies(file_path):
             response = requests.get(url, headers=headers)
             print(f"ℹ️ Код ответа сервера: {response.status_code}")
             
-            # Если сайт нас заблокировал (например, 403 Forbidden)
+            # Если сайт нас заблокировал
             if response.status_code != 200:
                 print(f"❌ Сервер отклонил запрос. Начало ответа:\n{response.text[:300]}")
                 break
@@ -42,13 +32,12 @@ def fetch_proxies(file_path):
             try:
                 data = response.json()
             except Exception as e:
-                print(f"❌ Не удалось прочитать JSON (возможно, выдало капчу Cloudflare): {e}")
-                print(f"Начало ответа:\n{response.text[:300]}")
+                print(f"❌ Не удалось прочитать JSON: {e}")
                 break
                 
-            # Если сайт вернул JSON, но там пусто или ошибка
+            # Если сайт вернул пустоту
             if not data.get('ok') or not data.get('items'):
-                print(f"⚠️ API не вернуло прокси на странице {page}. Ответ: {data}")
+                print(f"⚠️ API не вернуло прокси на странице {page}.")
                 break
                 
             for item in data['items']:
@@ -62,17 +51,17 @@ def fetch_proxies(file_path):
                 break
                 
             page += 1
-            time.sleep(1.5) # Немного увеличил паузу, чтобы не триггерить защиту
+            time.sleep(1.5)
             
         except Exception as e:
             print(f"❌ Критическая ошибка сети: {e}")
             break
 
-    # Перезаписываем файл
+    # Жестко перезаписываем файл только новыми ссылками
     with open(file_path, "w", encoding="utf-8") as f:
         f.write("\n".join(links))
         
-    print(f"🎯 ИТОГ: В файл сохранено {len(links)} уникальных прокси.")
+    print(f"🎯 ИТОГ: В файл сохранено {len(links)} абсолютно свежих прокси.")
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")
