@@ -5,7 +5,7 @@ from urllib.parse import parse_qs
 import concurrent.futures
 
 # ПРАВИЛЬНАЯ ссылка на сырой текст (raw)
-URL = "https://raw.githubusercontent.com/Argh94/Proxy-List/main/MTProto.txt"
+URL = "https://raw.githubusercontent.com/MahsaNetConfigTopic/proxy/refs/heads/main/proxies.txt"
 TIMEOUT = 2.0 # Максимальное время ожидания ответа от сервера
 
 def normalize_link(link):
