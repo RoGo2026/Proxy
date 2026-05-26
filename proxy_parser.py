@@ -35,7 +35,7 @@ def check_proxy_speed(proxy_link: str, timeout: float = 0.1):
     except Exception:
         return proxy_link, None
 
-def filter_fastest_proxies(proxy_links, timeout=0.1, max_workers=10):
+def filter_fastest_proxies(proxy_links, timeout=0.1, max_workers=20):
     """Параллельно проверяет скорость, возвращает все прокси, ответившие за timeout."""
     results = []
     print(f"⚡ Проверяем скорость {len(proxy_links)} прокси (таймаут {timeout}с)...")
@@ -45,7 +45,7 @@ def filter_fastest_proxies(proxy_links, timeout=0.1, max_workers=10):
             link, elapsed = future.result()
             if elapsed is not None:
                 results.append((link, elapsed))
-    # Сортируем по скорости
+    # Сортируем по времени
     results.sort(key=lambda x: x[1])
     fastest_links = [link for link, _ in results]
     print(f"🏆 Найдено быстрых прокси (отклик <={timeout}с): {len(fastest_links)}")
@@ -109,8 +109,8 @@ def fetch_proxies(file_path):
     unique_links = list(links)
     print(f"📦 Собрано уникальных прокси: {len(unique_links)}")
 
-    # === ШАГ 3: Проверка скорости ===
-    fastest_links = filter_fastest_proxies(unique_links, timeout=0.3, max_workers=20)
+    # === ШАГ 3: Проверка скорости (таймаут 0.1 сек) ===
+    fastest_links = filter_fastest_proxies(unique_links, timeout=0.1, max_workers=20)
 
     # === ШАГ 4: Сохраняем в файл ===
     with open(file_path, "w", encoding="utf-8") as f:
