@@ -12,40 +12,27 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Копируем репозиторий
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Установка системных зависимостей для TDLib
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake gperf libssl-dev zlib1g-dev
-
-    - name: Настраиваем Python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Устанавливаем библиотеку requests
-      run: pip install requests
+    - name: Install dependencies
+      run: pip install requests telethon
 
-    - name: Шаг 1 - Сбор всех прокси (Python)
+    - name: Fetch and check proxies
+      env:
+        API_ID: ${{ secrets.API_ID }}
+        API_HASH: ${{ secrets.API_HASH }}
       run: python proxy_parser.py
 
-    - name: Настраиваем Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    - name: Устанавливаем пакет проверки прокси
-      run: npm install telegram-mtproto-proxy-checker
-
-    - name: Шаг 2 - Проверка прокси через TDLib и генерация HTML
-      run: node checker.js
-
-    - name: Сохранение изменений в GitHub
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add index.html proxies.txt all_proxies.txt
-        git commit -m "Автоматическое обновление прокси и сайта [skip ci]" || echo "Нет изменений для коммита"
+        git commit -m "Automated proxy update [skip ci]" || echo "No changes to commit"
         git push
