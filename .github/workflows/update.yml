@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-python@v5
       with: {python-version: '3.10'}
     
-    # Кэшируем pip, чтобы не скачивать заново
+    # Кэшируем pip, чтобы не скачивать зависимости повторно
     - uses: actions/cache@v4
       with:
         path: ~/.cache/pip
@@ -25,10 +25,10 @@ jobs:
     - run: pip install requests
     - run: python proxy_parser.py
     
-    - name: Commit
+    - name: Commit changes
       run: |
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
         git add .
-        git commit -m "Update proxies [skip ci]" || echo "No changes"
+        git commit -m "Update proxies and HTML [skip ci]" || echo "No changes"
         git push
