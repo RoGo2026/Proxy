@@ -20,7 +20,7 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy_worker(proxy_link: str, timeout: int = 1.5) -> tuple:
+def check_proxy_worker(proxy_link: str, timeout: int = 3) -> tuple:
     """Проверяет один прокси: возвращает (ссылка, True/False)."""
     try:
         server, port = parse_proxy_from_link(proxy_link)
@@ -32,7 +32,7 @@ def check_proxy_worker(proxy_link: str, timeout: int = 1.5) -> tuple:
     except Exception:
         return proxy_link, False
 
-def filter_working_proxies(proxy_links, timeout=3, max_workers=20):
+def filter_working_proxies(proxy_links, timeout=1.5, max_workers=10):
     """Параллельно проверяет список прокси, возвращает только рабочие."""
     working = []
     total = len(proxy_links)
