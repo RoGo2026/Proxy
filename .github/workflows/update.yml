@@ -22,15 +22,13 @@ jobs:
 
     - name: Восстанавливаем кэш pip
       uses: actions/cache@v4
-      id: cache-pip
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('proxy_parser.py') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
-    - name: Устанавливаем библиотеку для запросов (если нет в кэше)
-      if: steps.cache-pip.outputs.cache-hit != 'true'
+    - name: Устанавливаем библиотеку для запросов
       run: pip install requests
 
     - name: Запуск сбора прокси и обновления сайта
