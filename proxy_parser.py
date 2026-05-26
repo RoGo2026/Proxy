@@ -5,7 +5,6 @@ import socket
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# ANSI цвета
 GREEN = '\033[92m'
 RED = '\033[91m'
 YELLOW = '\033[93m'
@@ -28,54 +27,38 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy(proxy_link: str, timeout: float = 0.2):
-    """
-    Проверка прокси через TCP + отправка минимального TLS Client Hello.
-    Если в течение timeout пришёл ответ (хоть 1 байт) – прокси рабочий.
-    """
+def check_proxy_tcp(proxy_link: str, timeout: float = 0.2):
+    """Проверяет только TCP соединение (порт открыт)."""
     try:
         server, port = parse_proxy_from_link(proxy_link)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         start = time.perf_counter()
         sock.connect((server, port))
-
-        # Минимальный TLS Client Hello (реальный снифф из браузера)
-        tls_hello = bytes.fromhex(
-            "1603010200010001fc030386e24c3add68656c702e737465616d706f77657265642e636f6d"
-        ) + b'\x00' * 50  # добавим немного padding
-
-        sock.send(tls_hello)
-        # Пытаемся прочитать ответ
-        data = sock.recv(1024)
         elapsed = time.perf_counter() - start
         sock.close()
-
-        if len(data) > 0:
-            return proxy_link, elapsed
-        else:
-            return proxy_link, None
+        return proxy_link, elapsed
     except Exception:
         return proxy_link, None
 
 def filter_proxies(proxy_links, timeout=0.2, max_workers=20):
     results = []
     total = len(proxy_links)
-    print(colored(f"\n🔍 Проверка {total} прокси (TCP+TLS, таймаут {timeout}с)...", CYAN))
+    print(colored(f"\n🔌 Проверяем {total} прокси (TCP, таймаут {timeout}с)...", CYAN))
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_link = {executor.submit(check_proxy, link, timeout): link for link in proxy_links}
+        future_to_link = {executor.submit(check_proxy_tcp, link, timeout): link for link in proxy_links}
         for i, future in enumerate(as_completed(future_to_link), 1):
             link, elapsed = future.result()
             if elapsed is not None:
                 results.append((link, elapsed))
-                print(f"   [{i}/{total}] {colored('✅ ОТВЕТ ЕСТЬ', GREEN)} ({elapsed:.3f} сек)")
+                print(f"   [{i}/{total}] {colored('✅ ПОРТ ОТКРЫТ', GREEN)} ({elapsed:.3f} сек)")
             else:
-                print(f"   [{i}/{total}] {colored('❌ НЕТ ОТВЕТА', RED)}")
+                print(f"   [{i}/{total}] {colored('❌ ПОРТ ЗАКРЫТ', RED)}")
     results.sort(key=lambda x: x[1])
     working = [link for link, _ in results]
-    print(colored(f"\n🏆 Рабочих прокси: {len(working)} из {total}", CYAN))
+    print(colored(f"\n🏆 Прокси с открытым портом: {len(working)} из {total}", CYAN))
     if working:
-        print(colored(f"   Отсеяно: {total - len(working)}", YELLOW))
+        print(colored(f"   Отсеяно (порт закрыт/таймаут): {total - len(working)}", YELLOW))
         for i, (link, t) in enumerate(results[:5], 1):
             short = link[:80] + "..." if len(link) > 80 else link
             print(f"      #{i}: {t:.3f} сек - {short}")
