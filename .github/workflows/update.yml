@@ -1,4 +1,5 @@
 name: Update Proxies Site
+
 on:
   schedule:
     - cron: '*/30 * * * *'
@@ -11,27 +12,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
-        with: 
-          python-version: '3.10'
-          
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip
-          
-      - run: pip install requests
-      - run: python proxy_parser.py
-      
-      - name: Commit changes
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git add .
-          # Безопасно удаляем мусор из git, если он там застрял (не упадет, если файла нет)
-          git rm --ignore-unmatch all_proxies.txt || true
-          # Коммитим только если реально есть изменения
-          git diff --staged --quiet || git commit -m "Update proxies and HTML [skip ci]"
-          git push
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.10'}
+    
+    # Кэшируем pip, чтобы не скачивать зависимости повторно
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip
+        
+    - run: pip install requests
+    - run: python proxy_parser.py
+    
+    - name: Commit changes
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add .
+        git commit -m "Update proxies and HTML [skip ci]" || echo "No changes"
+        git push
