@@ -15,29 +15,37 @@ jobs:
     - name: Копируем репозиторий
       uses: actions/checkout@v4
 
+    - name: Установка системных зависимостей для TDLib
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake gperf libssl-dev zlib1g-dev
+
     - name: Настраиваем Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Восстанавливаем кэш pip
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('proxy_parser.py') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Устанавливаем библиотеку для запросов
+    - name: Устанавливаем библиотеку requests
       run: pip install requests
 
-    - name: Запуск сбора прокси и обновления сайта
+    - name: Шаг 1 - Сбор всех прокси (Python)
       run: python proxy_parser.py
+
+    - name: Настраиваем Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Устанавливаем пакет проверки прокси
+      run: npm install telegram-mtproto-proxy-checker
+
+    - name: Шаг 2 - Проверка прокси через TDLib и генерация HTML
+      run: node checker.js
 
     - name: Сохранение изменений в GitHub
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add index.html proxies.txt
+        git add index.html proxies.txt all_proxies.txt
         git commit -m "Автоматическое обновление прокси и сайта [skip ci]" || echo "Нет изменений для коммита"
         git push
