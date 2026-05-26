@@ -4,6 +4,7 @@ import re
 import socket
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import time as time_module
 
 def normalize_proxy_link(link: str) -> str:
     """Приводит ссылку к единому формату (заменяет &amp; на &)."""
@@ -20,37 +21,39 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy_worker(proxy_link: str, timeout: float = 1.5) -> tuple:
+def check_proxy_speed(proxy_link: str, timeout: float = 0.3):
+    """Возвращает (ссылка, время_в_секундах) или (ссылка, None) если ошибка."""
     try:
         server, port = parse_proxy_from_link(proxy_link)
+        start = time_module.perf_counter()
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         sock.connect((server, port))
-        # Отправляем первые 4 байта MTProto v2 (0xEF + три нуля)
-        sock.send(b'\xef\x00\x00\x00')
-        # Ждём ответа (хотя бы 1 байт)
-        data = sock.recv(1024)
+        elapsed = time_module.perf_counter() - start
         sock.close()
-        # Если получили ответ, считаем прокси рабочим
-        return proxy_link, len(data) > 0
+        return proxy_link, elapsed
     except Exception:
-        return proxy_link, False
+        return proxy_link, None
 
-def filter_working_proxies(proxy_links, timeout=1.5, max_workers=10):
-    """Параллельно проверяет список прокси, возвращает только рабочие."""
-    working = []
-    total = len(proxy_links)
-    print(f"🔍 Начинаем проверку {total} прокси (таймаут {timeout} сек)...")
+def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=10):
+    """Параллельно проверяет скорость, возвращает top_n самых быстрых."""
+    results = []
+    print(f"⚡ Проверяем скорость {len(proxy_links)} прокси (таймаут {timeout}с)...")
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_link = {executor.submit(check_proxy_worker, link, timeout): link for link in proxy_links}
-        for i, future in enumerate(as_completed(future_to_link), 1):
-            link, is_working = future.result()
-            if is_working:
-                working.append(link)
-            if i % 10 == 0 or i == total:
-                print(f"   Прогресс: {i}/{total} | Рабочих: {len(working)}")
-    print(f"✅ Проверка завершена. Рабочих прокси: {len(working)} из {total}")
-    return working
+        future_to_link = {executor.submit(check_proxy_speed, link, timeout): link for link in proxy_links}
+        for future in as_completed(future_to_link):
+            link, elapsed = future.result()
+            if elapsed is not None:
+                results.append((link, elapsed))
+    # Сортируем по времени
+    results.sort(key=lambda x: x[1])
+    fastest = [link for link, _ in results[:top_n]]
+    print(f"🏆 Найдено быстрых прокси: {len(results)}. Отобрано {len(fastest)} самых быстрых.")
+    if fastest:
+        print("   Самые быстрые (первые 5):")
+        for i, (link, t) in enumerate(results[:5], 1):
+            print(f"      #{i}: {t:.3f} сек - {link[:70]}...")
+    return fastest
 
 def fetch_proxies(file_path):
     links = set()
@@ -106,13 +109,13 @@ def fetch_proxies(file_path):
     unique_links = list(links)
     print(f"📦 Собрано уникальных прокси: {len(unique_links)}")
 
-    # === ШАГ 3: Проверка работоспособности ===
-    working_links = filter_working_proxies(unique_links, timeout=3, max_workers=20)
+    # === ШАГ 3: Проверка скорости и отбор топ-15 самых быстрых ===
+    fastest_links = filter_fastest_proxies(unique_links, timeout=0.3, max_workers=20, top_n=15)
 
-    # === ШАГ 4: Сохраняем рабочие прокси в файл ===
+    # === ШАГ 4: Сохраняем в файл ===
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(sorted(working_links)))
-    print(f"🎯 Рабочие прокси сохранены в {file_path} (всего {len(working_links)})")
+        f.write("\n".join(sorted(fastest_links)))
+    print(f"🎯 Самые быстрые прокси сохранены в {file_path} (всего {len(fastest_links)})")
 
     # === ШАГ 5: Генерация index.html ===
     print("🌐 Обновляем index.html...")
@@ -176,13 +179,13 @@ def fetch_proxies(file_path):
 
     <div class="header-container">
         <h2>MTProto Прокси</h2>
-        <div class="counter">Работает: {len(working_links)}</div>
+        <div class="counter">Работает: {len(fastest_links)}</div>
     </div>
 
     <div class="proxy-grid">
 """
 
-    for i, proxy in enumerate(sorted(working_links), 1):
+    for i, proxy in enumerate(sorted(fastest_links), 1):
         html_template += f'        <a href="{proxy}" class="proxy-link"><span>#{i} Подключить</span><span class="ping-text"></span></a>\n'
 
     html_template += """    </div>
@@ -198,7 +201,7 @@ def fetch_proxies(file_path):
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-    print(f"✅ index.html обновлён, добавлено кнопок: {len(working_links)}")
+    print(f"✅ index.html обновлён, добавлено кнопок: {len(fastest_links)}")
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")
