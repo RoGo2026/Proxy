@@ -20,7 +20,7 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy_worker(proxy_link: str, timeout: int = 3) -> tuple:
+def check_proxy_worker(proxy_link: str, timeout: int = 1.5) -> tuple:
     """Проверяет один прокси: возвращает (ссылка, True/False)."""
     try:
         server, port = parse_proxy_from_link(proxy_link)
