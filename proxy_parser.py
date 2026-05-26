@@ -1,6 +1,28 @@
 import requests
 import time
 import re
+import socket
+from urllib.parse import urlparse, parse_qs
+from concurrent.futures import ThreadPoolExecutor
+
+def check_proxy_tcp(link, timeout=0.2):
+    """Проверяет доступность прокси по TCP с заданным таймаутом."""
+    try:
+        # Парсим server и port из ссылки tg://proxy?server=...&port=...
+        parsed = urlparse(link.replace("tg://", "http://")) # Заменяем схему для корректного парсинга
+        query_params = parse_qs(parsed.query)
+        
+        server = query_params.get('server', [None])[0]
+        port = query_params.get('port', [None])[0]
+        
+        if not server or not port:
+            return None
+            
+        # Пытаемся открыть TCP-соединение
+        with socket.create_connection((server, int(port)), timeout=timeout):
+            return link
+    except (socket.timeout, socket.error, ValueError, TypeError):
+        return None
 
 def fetch_proxies(file_path):
     links = set()
@@ -16,7 +38,7 @@ def fetch_proxies(file_path):
     # === ШАГ 1: Охота на отборные прокси с главной страницы ===
     print("🌟 Ищем 'отборные' прокси прямо на главной...")
     try:
-        main_page = requests.get("https://mtprotoproxy.app/ru/", headers=headers)
+        main_page = requests.get("https://mtprotoproxy.app/ru/", headers=headers, timeout=20)
         featured = re.findall(r'tg://proxy\?[^"\'\s<>]+', main_page.text)
         for link in featured:
             links.add(link)
@@ -30,7 +52,7 @@ def fetch_proxies(file_path):
         try:
             url = f"https://mtprotoproxy.app/api/proxies?page={page}"
             print(f"➡️ Отправляю запрос API: {url}")
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=20)
             
             if response.status_code != 200:
                 print(f"❌ Сервер отклонил запрос API. Код: {response.status_code}")
@@ -62,15 +84,28 @@ def fetch_proxies(file_path):
             print(f"❌ Критическая ошибка сети API: {e}")
             break
 
-    # Сортируем список для красивого вывода
-    sorted_links = sorted(list(links))
+    print(f"🔍 Всего собрано уникальных ссылок: {len(links)}")
 
-    # === ШАГ 3: Запись в текстовый файл proxies.txt ===
+    # === ШАГ 3: Фильтрация по TCP с таймаутом 0.2 сек ===
+    print("⚡ Начинаем проверку доступности по TCP (таймаут 0.2с)...")
+    working_links = set()
+    
+    # Используем ThreadPoolExecutor для быстрой параллельной проверки
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        results = executor.map(check_proxy_tcp, links)
+        for result in results:
+            if result:
+                working_links.add(result)
+                
+    sorted_links = sorted(list(working_links))
+    print(f"🎯 ИТОГ: Проверку прошли {len(sorted_links)} из {len(links)} прокси.")
+
+    # === ШАГ 4: Запись в текстовый файл proxies.txt ===
     with open(file_path, "w", encoding="utf-8") as f:
         f.write("\n".join(sorted_links))
-    print(f"🎯 ИТОГ: Сохранено {len(sorted_links)} уникальных прокси в файл {file_path}.")
+    print(f"💾 Сохранено {len(sorted_links)} рабочих прокси в файл {file_path}.")
 
-    # === ШАГ 4: Автоматическая генерация и обновление сайта index.html ===
+    # === ШАГ 5: Автоматическая генерация и обновление сайта index.html ===
     print("🌐 Начинаем автоматическое обновление index.html...")
     
     html_template = f"""<!DOCTYPE html>
@@ -158,7 +193,7 @@ def fetch_proxies(file_path):
     # Перезаписываем сайт актуальным кодом
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-    print(f"✅ Файл index.html успешно сгенерирован! Обновлено кнопок: {len(sorted_links)}.")
+    print(f"✅ Файл index.html успешно сгенерирован! Добавлено рабочих кнопок: {len(sorted_links)}.")
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")
