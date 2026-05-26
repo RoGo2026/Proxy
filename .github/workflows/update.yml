@@ -2,44 +2,33 @@ name: Update Proxies Site
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # Запуск раз в 30 минут
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Копируем репозиторий
-      uses: actions/checkout@v4
-
-    - name: Настраиваем Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Кешируем пакеты pip
-      uses: actions/cache@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.10'}
+    
+    # Кэшируем pip, чтобы не скачивать заново
+    - uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip
-
-    - name: Устанавливаем библиотеку для запросов
-      run: pip install requests
-
-    - name: Запуск сбора прокси
-      run: python proxy_parser.py
-
-    - name: Проверка на работоспособность и обновление сайта
-      run: python build_html.py
-
-    - name: Сохранение изменений
+        
+    - run: pip install requests
+    - run: python proxy_parser.py
+    
+    - name: Commit
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add index.html
-        git add proxies.txt
-        git commit -m "Автоматическая проверка прокси и обновление сайта [skip ci]" || echo "Нет изменений для коммита"
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add .
+        git commit -m "Update proxies [skip ci]" || echo "No changes"
         git push
