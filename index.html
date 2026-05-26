@@ -5,49 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTProto Proxies</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 15px; max-width: 800px; margin: 0 auto; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px; }
         h2 { margin: 0; color: #333; font-size: 20px; }
-        .counter {
-            background-color: #2e7d32;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        .counter { background-color: #2e7d32; color: white; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
         .proxy-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .proxy-link {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex: 1 1 calc(33.333% - 10px);
-            min-width: 140px;
-            background-color: #0088cc;
-            color: white;
-            padding: 12px 8px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            box-sizing: border-box;
-            transition: background-color 0.2s;
-        }
-        .ping-text { display: none; }
+        .proxy-link { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1 1 calc(33.333% - 10px); min-width: 140px; background-color: #0088cc; color: white; padding: 12px 8px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background-color 0.2s; }
         .proxy-link:active { background-color: #006699; }
         .proxy-link.clicked { background-color: #d9534f; }
         @media (max-width: 600px) { .proxy-link { flex: 1 1 calc(50% - 10px); } }
@@ -55,52 +18,11 @@
     </style>
 </head>
 <body>
-
     <div class="header-container">
         <h2>MTProto Прокси</h2>
-        <div class="counter">Работает: 39</div>
+        <div class="counter">Работает: 0</div>
     </div>
-
     <div class="proxy-grid">
-        <a href="tg://proxy?server=178.105.137.152&amp;port=443&amp;secret=eeabf13064a3bf0851a02ad67114f842ce676f6f676c65617069732e636f6d" class="proxy-link"><span>#1 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=178.105.137.152&port=443&secret=eeabf13064a3bf0851a02ad67114f842ce676f6f676c65617069732e636f6d" class="proxy-link"><span>#2 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=186.246.21.31&amp;port=443&amp;secret=eeb4977787e9a3f4c9d51ec528688f922e617669746f2e7275" class="proxy-link"><span>#3 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=186.246.21.31&port=443&secret=eeb4977787e9a3f4c9d51ec528688f922e617669746f2e7275" class="proxy-link"><span>#4 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=186.246.21.40&amp;port=443&amp;secret=eec11798ab008831b474066c9e1ebf5c74617669746f2e7275" class="proxy-link"><span>#5 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=186.246.21.40&port=443&secret=eec11798ab008831b474066c9e1ebf5c74617669746f2e7275" class="proxy-link"><span>#6 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=45.12.109.223&amp;port=443&amp;secret=ee43db025a33093757dadf5ab0aa9966b1676f6f676c65617069732e636f6d" class="proxy-link"><span>#7 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=45.12.109.223&port=443&secret=ee43db025a33093757dadf5ab0aa9966b1676f6f676c65617069732e636f6d" class="proxy-link"><span>#8 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=5.78.77.99&amp;port=443&amp;secret=ee00000000000000000000000000000000616e6e6173682e636f6d" class="proxy-link"><span>#9 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=5.78.77.99&port=443&secret=ee00000000000000000000000000000000616e6e6173682e636f6d" class="proxy-link"><span>#10 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=72.56.87.28&amp;port=443&amp;secret=eec11798ab008831b474066c9e1ebf5c76617669746f2e7275" class="proxy-link"><span>#11 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=72.56.87.28&port=443&secret=eec11798ab008831b474066c9e1ebf5c76617669746f2e7275" class="proxy-link"><span>#12 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dns.vdl.lat&amp;port=853&amp;secret=ee534adcf23a16f425cbae129c4cb574cb6164732e78352e7275" class="proxy-link"><span>#13 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dns.vdl.lat&port=853&secret=ee534adcf23a16f425cbae129c4cb574cb6164732e78352e7275" class="proxy-link"><span>#14 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dr1.dedus.pro&amp;port=443&amp;secret=eeaf504aa56469ec880c9cb00515fc8a2d79616e6465782e7275" class="proxy-link"><span>#15 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dr1.dedus.pro&port=443&secret=eeaf504aa56469ec880c9cb00515fc8a2d79616e6465782e7275" class="proxy-link"><span>#16 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dr4.dedus.pro&amp;port=443&amp;secret=eeaf504aa56469ec880c9cb00515fc8a2d79616e6465782e7275" class="proxy-link"><span>#17 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=dr4.dedus.pro&port=443&secret=eeaf504aa56469ec880c9cb00515fc8a2d79616e6465782e7275" class="proxy-link"><span>#18 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=mt.nowaboost.com&amp;port=443&amp;secret=4fd95a487c5c87ae82b6639a9b6b5ff2" class="proxy-link"><span>#19 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=mt.nowaboost.com&port=443&secret=4fd95a487c5c87ae82b6639a9b6b5ff2" class="proxy-link"><span>#20 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=mt.nowabst.com&amp;port=853&amp;secret=eedd7a7a3d6f4cf1f7c3fae9cff28b73796164732e78352e7275" class="proxy-link"><span>#21 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=r6.proxytg.space&amp;port=8443&amp;secret=eea66a6c939a8f1a0596bd06f17dae253772362e70726f787974672e7370616365" class="proxy-link"><span>#22 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=r6.proxytg.space&port=8443&secret=eea66a6c939a8f1a0596bd06f17dae253772362e70726f787974672e7370616365" class="proxy-link"><span>#23 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=r7.proxytg.space&amp;port=8443&amp;secret=ee20d95482189070afff142be2bf66014c72372e70726f787974672e7370616365" class="proxy-link"><span>#24 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=r7.proxytg.space&port=8443&secret=ee20d95482189070afff142be2bf66014c72372e70726f787974672e7370616365" class="proxy-link"><span>#25 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=s11.neo-trading.org&amp;port=993&amp;secret=ee17b59d905a546c7bf7355cf95c4ecfed7777772e636c6f7564666c6172652e636f6d" class="proxy-link"><span>#26 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=s13.neo-trading.org&port=993&secret=eec3fefd89a25d37ca3af1a602c7bfd8de7777772e636c6f7564666c6172652e636f6d" class="proxy-link"><span>#27 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=s15.proxyru.top&port=993&secret=eefe281d2bfa13f991ed6be43138e5e14c7777772e636c6f7564666c6172652e636f6d" class="proxy-link"><span>#28 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=s24.neo-trading.org&port=443&secret=ee17b59d905a546c7bf7355cf95c4ecfed79612e7275" class="proxy-link"><span>#29 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=tproxy.ink&amp;port=443&amp;secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#30 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=tproxy.ink&port=443&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#31 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=tproxy.mom&amp;port=8090&amp;secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#32 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#33 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=vk.chunkycorp.shop&amp;port=443&amp;secret=ee3a3365be03d6bc13518d65e70a3146c2617669746f2e7275" class="proxy-link"><span>#34 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=vk.chunkycorp.shop&port=443&secret=ee3a3365be03d6bc13518d65e70a3146c2617669746f2e7275" class="proxy-link"><span>#35 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=www.tproxy.ink&amp;port=443&amp;secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#36 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=www.tproxy.ink&port=443&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#37 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=www.tproxy.mom&amp;port=8090&amp;secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#38 Подключить</span><span class="ping-text"></span></a>
-        <a href="tg://proxy?server=www.tproxy.mom&port=8090&secret=ee104462821249bd7ac519130220c25d09617669746f2e7275" class="proxy-link"><span>#39 Подключить</span><span class="ping-text"></span></a>
     </div>
     <script>
         document.querySelectorAll('.proxy-link').forEach(button => {
