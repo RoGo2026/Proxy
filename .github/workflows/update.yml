@@ -2,43 +2,35 @@ name: Update Proxies Site
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
-
-  workflow_dispatch:
+    - cron: '*/30 * * * *' # Запуск раз в 30 минут автоматически
+  workflow_dispatch: # Оставляет кнопку ручного запуска в панели Actions
 
 permissions:
-  contents: write
+  contents: write # Разрешение менять файлы в репозитории
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
+    - name: Копируем репозиторий
       uses: actions/checkout@v4
 
-    - name: Setup Python
+    - name: Настраиваем Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install requests
+    - name: Устанавливаем библиотеку для запросов
       run: pip install requests
 
-    - name: Update proxies.txt
-      run: python update.py
+    - name: Запуск сбора прокси и обновления сайта
+      run: python proxy_parser.py
 
-    - name: Generate index.html
-      run: python generate_html.py
-
-    - name: Commit and Push
+    - name: Сохранение изменений в GitHub
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-
-        git add proxies.txt
         git add index.html
-
-        git commit -m "Auto update proxies [skip ci]" || echo "No changes"
-
+        git add proxies.txt
+        git commit -m "Автоматическое обновление прокси и сайта [skip ci]" || echo "Нет изменений для коммита"
         git push
