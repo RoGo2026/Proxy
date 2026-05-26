@@ -1,63 +1,97 @@
 import requests
 import time
+import re
 
 def fetch_proxies(file_path):
     links = set()
-    
-    # 1. Читаем прокси, которые УЖЕ лежат в файле (если он есть)
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                if line.strip():
-                    links.add(line.strip())
-    except FileNotFoundError:
-        pass
-        
-    page = 1
-    print("⏳ Начинаю сбор новых прокси...")
-    
-    # МАскируемся под обычный браузер (Chrome на Windows 10)
+
+    print("📁 Собираем прокси с нуля.")
+
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json, text/plain, */*"
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json, text/html, */*",
+        "Referer": "https://mtprotoproxy.app/ru/",
+        "Accept-Language": "ru-RU,ru;q=0.9"
     }
-    
-    # 2. Собираем новые
+
+    # Главная страница
+    try:
+        main_page = requests.get(
+            "https://mtprotoproxy.app/ru/",
+            headers=headers,
+            timeout=20
+        )
+
+        featured = re.findall(
+            r'tg://proxy\?[^"\'\s<>]+',
+            main_page.text
+        )
+
+        for link in featured:
+            links.add(link)
+
+        print(f"🌟 Найдено с главной: {len(featured)}")
+
+    except Exception as e:
+        print(f"❌ Ошибка главной страницы: {e}")
+
+    # API
+    page = 1
+
     while True:
         try:
             url = f"https://mtprotoproxy.app/api/proxies?page={page}"
-            response = requests.get(url, headers=headers)
-            
-            # Если сайт вернул страницу с защитой Cloudflare, а не JSON
-            try:
-                data = response.json()
-            except ValueError:
-                print("❌ Сайт вернул не JSON. Возможно, включилась защита от ботов (Cloudflare).")
+
+            print(f"➡️ API page {page}")
+
+            response = requests.get(
+                url,
+                headers=headers,
+                timeout=20
+            )
+
+            if response.status_code != 200:
+                print(f"❌ Status: {response.status_code}")
                 break
-            
-            if not data.get('ok') or not data.get('items'):
-                print(f"⚠️ API не вернуло данные на странице {page}. Ответ сервера: {data}")
+
+            data = response.json()
+
+            if not data.get("ok"):
                 break
-                
-            for item in data['items']:
-                link = f"tg://proxy?server={item['server']}&port={item['port']}&secret={item['secret']}"
+
+            items = data.get("items", [])
+
+            if not items:
+                break
+
+            for item in items:
+                link = (
+                    f"tg://proxy?"
+                    f"server={item['server']}"
+                    f"&port={item['port']}"
+                    f"&secret={item['secret']}"
+                )
+
                 links.add(link)
-                
-            if not data.get('has_more'):
+
+            print(f"✅ Страница {page}: {len(items)}")
+
+            if not data.get("has_more"):
                 break
-                
+
             page += 1
-            time.sleep(1) # Увеличил паузу до 1 секунды, чтобы не злить защиту сайта
-            
+
+            time.sleep(1.5)
+
         except Exception as e:
-            print(f"❌ Ошибка сети: {e}")
+            print(f"❌ API ошибка: {e}")
             break
 
-    # 3. Перезаписываем файл
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(links))
-        
-    print(f"✅ Готово! Всего уникальных прокси в файле для теста: {len(links)}")
+        f.write("\n".join(sorted(links)))
+
+    print(f"🎯 Всего прокси: {len(links)}")
+
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")
