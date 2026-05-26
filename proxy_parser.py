@@ -21,7 +21,7 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy_speed(proxy_link: str, timeout: float = 0.3):
+def check_proxy_speed(proxy_link: str, timeout: float = 0.1):
     """Возвращает (ссылка, время_в_секундах) или (ссылка, None) если ошибка."""
     try:
         server, port = parse_proxy_from_link(proxy_link)
@@ -35,7 +35,7 @@ def check_proxy_speed(proxy_link: str, timeout: float = 0.3):
     except Exception:
         return proxy_link, None
 
-def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=20):
+def filter_fastest_proxies(proxy_links, timeout=0.1, max_workers=10):
     """Параллельно проверяет скорость, возвращает все прокси, ответившие за timeout."""
     results = []
     print(f"⚡ Проверяем скорость {len(proxy_links)} прокси (таймаут {timeout}с)...")
