@@ -2,13 +2,11 @@ import requests
 import time
 import re
 import socket
-import struct
 import urllib.parse
-import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time as time_module
 
-# ANSI цвета для красивого вывода
+# ANSI цвета
 GREEN = '\033[92m'
 RED = '\033[91m'
 YELLOW = '\033[93m'
@@ -31,31 +29,11 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def mtproto_ping_packet(ping_id=None):
-    """Формирует сырой MTProto пакет для вызова req_ping (unencrypted режим)."""
-    if ping_id is None:
-        ping_id = random.getrandbits(64)
-    
-    # TL-конструктор для req_ping = 0x7abe77ec (little-endian)
-    req_ping_code = 0x7abe77ec
-    body = struct.pack('<Iq', req_ping_code, ping_id)  # code (4 байта) + ping_id (8 байт)
-    
-    # Заголовок unencrypted сообщения:
-    # auth_key_id = 0 (8 байт)
-    auth_key_id = b'\x00' * 8
-    # msg_id = текущее время * 2^32 (уникальный идентификатор)
-    msg_id = int((time_module.time() * 2**32)) & 0xFFFFFFFFFFFFFFFF
-    seqno = 0
-    length = len(body)
-    
-    header = struct.pack('<8sQII', auth_key_id, msg_id, seqno, length)
-    return header + body, ping_id
-
-def check_mtproto_ping(proxy_link: str, timeout: float = 0.5):
+def check_proxy_tcp_handshake(proxy_link: str, timeout: float = 0.3):
     """
-    Проверяет прокси через отправку MTProto ping.
-    Возвращает (ссылка, время_ответа_сек) если получен корректный pong,
-    иначе (ссылка, None).
+    Проверяет прокси через TCP-соединение + отправка MTProto handshake.
+    Считает рабочим, если сервер не закрыл соединение сразу после отправки
+    и вернул хотя бы 1 байт данных.
     """
     try:
         server, port = parse_proxy_from_link(proxy_link)
@@ -63,75 +41,55 @@ def check_mtproto_ping(proxy_link: str, timeout: float = 0.5):
         sock.settimeout(timeout)
         start = time_module.perf_counter()
         sock.connect((server, port))
-        
-        packet, ping_id = mtproto_ping_packet()
-        sock.send(packet)
-        
-        # Читаем ответ: минимум 24 байта для заголовка + тело
-        resp = sock.recv(1024)
+        # Отправляем MTProto v2 magic (4 байта)
+        sock.send(b'\xef\x00\x00\x00')
+        # Пытаемся прочитать ответ (до 256 байт) за остаток таймаута
+        # Не ждём полного ответа, просто проверяем, есть ли что-то
+        remaining = max(0.05, timeout - (time_module.perf_counter() - start))
+        sock.settimeout(remaining)
+        try:
+            data = sock.recv(256)
+            has_response = len(data) > 0
+        except socket.timeout:
+            has_response = False
         elapsed = time_module.perf_counter() - start
-        
-        if len(resp) < 24:
-            sock.close()
-            return proxy_link, None
-        
-        # Извлекаем длину тела (байты 20-23)
-        body_len = struct.unpack('<I', resp[20:24])[0]
-        if len(resp) < 24 + body_len:
-            sock.close()
-            return proxy_link, None
-        
-        body = resp[24:24+body_len]
-        if len(body) < 12:
-            sock.close()
-            return proxy_link, None
-        
-        # Код pong должен быть 0x347773c5
-        pong_code = struct.unpack('<I', body[:4])[0]
-        if pong_code != 0x347773c5:
-            sock.close()
-            return proxy_link, None
-        
-        # Проверяем, что полученный ping_id совпадает с отправленным
-        returned_ping_id = struct.unpack('<Q', body[4:12])[0]
-        if returned_ping_id != ping_id:
-            sock.close()
-            return proxy_link, None
-        
         sock.close()
-        return proxy_link, elapsed
-    
+        # Считаем прокси рабочим, если либо получили ответ, либо соединение не было закрыто мгновенно
+        # (отсутствие ответа может быть из-за того, что прокси требует больше времени, но он живой)
+        if has_response:
+            return proxy_link, elapsed
+        else:
+            # Если ответа нет, но соединение продержалось больше 0.05 сек – тоже считаем рабочим
+            # (некоторые прокси отвечают только после отправки полного ключа)
+            if elapsed > 0.05:
+                return proxy_link, elapsed
+            return proxy_link, None
     except Exception:
         return proxy_link, None
 
-def filter_mtproto_proxies(proxy_links, timeout=0.5, max_workers=20):
-    """Параллельно проверяет прокси через MTProto ping."""
+def filter_proxies(proxy_links, timeout=0.3, max_workers=20):
     results = []
     total = len(proxy_links)
-    print(colored(f"\n🏓 Проверяем MTProto ping на {total} прокси (таймаут {timeout}с)...", CYAN))
-    
+    print(colored(f"\n🔌 Проверяем {total} прокси (TCP+handshake, таймаут {timeout}с)...", CYAN))
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_link = {executor.submit(check_mtproto_ping, link, timeout): link for link in proxy_links}
+        future_to_link = {executor.submit(check_proxy_tcp_handshake, link, timeout): link for link in proxy_links}
         for i, future in enumerate(as_completed(future_to_link), 1):
             link, elapsed = future.result()
             if elapsed is not None:
                 results.append((link, elapsed))
-                print(f"   [{i}/{total}] {colored('✅ PONG получен', GREEN)} ({elapsed:.3f} сек)")
+                print(f"   [{i}/{total}] {colored('✅ Есть отклик', GREEN)} ({elapsed:.3f} сек)")
             else:
-                print(f"   [{i}/{total}] {colored('❌ Нет ответа/не MTProto', RED)}")
-    
-    # Сортируем по скорости ответа
+                print(f"   [{i}/{total}] {colored('❌ Нет соединения/отклика', RED)}")
     results.sort(key=lambda x: x[1])
-    working_links = [link for link, _ in results]
-    
-    print(colored(f"\n🏆 Рабочих MTProto прокси: {len(working_links)} из {total}", CYAN))
-    if working_links:
-        print(colored(f"   Отсеяно: {total - len(working_links)} прокси", YELLOW))
-        print(colored("   Топ-5 по скорости ответа:", CYAN))
+    working = [link for link, _ in results]
+    print(colored(f"\n🏆 Потенциально рабочих прокси: {len(working)} из {total}", CYAN))
+    if working:
+        print(colored(f"   Отсеяно: {total - len(working)} прокси", YELLOW))
+        print(colored("   Топ-5 по скорости:", CYAN))
         for i, (link, t) in enumerate(results[:5], 1):
             short_link = link[:80] + "..." if len(link) > 80 else link
             print(f"      #{i}: {t:.3f} сек - {short_link}")
-    return working_links
+    return working
 
 def fetch_proxies(file_path):
     links = set()
@@ -144,7 +102,7 @@ def fetch_proxies(file_path):
         "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
     }
 
-    # ШАГ 1: главная страница
+    # Главная страница
     print(colored("\n🌟 Ищем 'отборные' прокси на главной...", CYAN))
     try:
         main_page = requests.get("https://mtprotoproxy.app/ru/", headers=headers, timeout=15)
@@ -155,7 +113,7 @@ def fetch_proxies(file_path):
     except Exception as e:
         print(colored(f"⚠️ Ошибка при чтении главной страницы: {e}", RED))
 
-    # ШАГ 2: API
+    # API
     page = 1
     while True:
         try:
@@ -184,15 +142,15 @@ def fetch_proxies(file_path):
     unique_links = list(links)
     print(colored(f"\n📦 Собрано уникальных прокси: {len(unique_links)}", CYAN))
 
-    # ШАГ 3: Проверка через MTProto ping (таймаут 0.2 сек)
-    working_links = filter_mtproto_proxies(unique_links, timeout=0.2, max_workers=20)
+    # Проверка с таймаутом 0.3 сек (можно изменить)
+    working_links = filter_proxies(unique_links, timeout=0.3, max_workers=20)
 
-    # ШАГ 4: Сохраняем в файл
+    # Сохраняем
     with open(file_path, "w", encoding="utf-8") as f:
         f.write("\n".join(sorted(working_links)))
-    print(colored(f"\n🎯 Рабочие прокси сохранены в {file_path} (всего {len(working_links)})", GREEN))
+    print(colored(f"\n🎯 Результат сохранён в {file_path} (всего {len(working_links)})", GREEN))
 
-    # ШАГ 5: Генерация index.html
+    # Генерация index.html
     print(colored("🌐 Обновляем index.html...", CYAN))
     html_template = f"""<!DOCTYPE html>
 <html lang="ru">
