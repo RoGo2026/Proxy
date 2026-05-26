@@ -35,8 +35,8 @@ def check_proxy_speed(proxy_link: str, timeout: float = 0.3):
     except Exception:
         return proxy_link, None
 
-def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=10, top_n=15):
-    """Параллельно проверяет скорость, возвращает top_n самых быстрых."""
+def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=20):
+    """Параллельно проверяет скорость, возвращает все прокси, ответившие за timeout."""
     results = []
     print(f"⚡ Проверяем скорость {len(proxy_links)} прокси (таймаут {timeout}с)...")
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -45,15 +45,15 @@ def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=10, top_n=15):
             link, elapsed = future.result()
             if elapsed is not None:
                 results.append((link, elapsed))
-    # Сортируем по времени
+    # Сортируем по скорости
     results.sort(key=lambda x: x[1])
-    fastest = [link for link, _ in results[:top_n]]
-    print(f"🏆 Найдено быстрых прокси: {len(results)}. Отобрано {len(fastest)} самых быстрых.")
-    if fastest:
-        print("   Самые быстрые (первые 5):")
+    fastest_links = [link for link, _ in results]
+    print(f"🏆 Найдено быстрых прокси (отклик <={timeout}с): {len(fastest_links)}")
+    if fastest_links:
+        print("   Топ-5 по скорости:")
         for i, (link, t) in enumerate(results[:5], 1):
             print(f"      #{i}: {t:.3f} сек - {link[:70]}...")
-    return fastest
+    return fastest_links
 
 def fetch_proxies(file_path):
     links = set()
@@ -109,13 +109,13 @@ def fetch_proxies(file_path):
     unique_links = list(links)
     print(f"📦 Собрано уникальных прокси: {len(unique_links)}")
 
-    # === ШАГ 3: Проверка скорости и отбор топ-15 самых быстрых ===
-    fastest_links = filter_fastest_proxies(unique_links, timeout=0.3, max_workers=20, top_n=15)
+    # === ШАГ 3: Проверка скорости ===
+    fastest_links = filter_fastest_proxies(unique_links, timeout=0.3, max_workers=20)
 
     # === ШАГ 4: Сохраняем в файл ===
     with open(file_path, "w", encoding="utf-8") as f:
         f.write("\n".join(sorted(fastest_links)))
-    print(f"🎯 Самые быстрые прокси сохранены в {file_path} (всего {len(fastest_links)})")
+    print(f"🎯 Быстрые прокси сохранены в {file_path} (всего {len(fastest_links)})")
 
     # === ШАГ 5: Генерация index.html ===
     print("🌐 Обновляем index.html...")
