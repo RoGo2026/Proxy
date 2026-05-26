@@ -35,7 +35,7 @@ def check_proxy_speed(proxy_link: str, timeout: float = 0.3):
     except Exception:
         return proxy_link, None
 
-def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=10):
+def filter_fastest_proxies(proxy_links, timeout=0.3, max_workers=10, top_n=15):
     """Параллельно проверяет скорость, возвращает top_n самых быстрых."""
     results = []
     print(f"⚡ Проверяем скорость {len(proxy_links)} прокси (таймаут {timeout}с)...")
