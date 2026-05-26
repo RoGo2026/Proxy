@@ -2,6 +2,7 @@ import requests
 import time
 import re
 import socket
+from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 from concurrent.futures import ThreadPoolExecutor
 
@@ -9,7 +10,7 @@ def check_proxy_tcp(link, timeout=0.2):
     """Проверяет доступность прокси по TCP с заданным таймаутом."""
     try:
         # Парсим server и port из ссылки tg://proxy?server=...&port=...
-        parsed = urlparse(link.replace("tg://", "http://")) # Заменяем схему для корректного парсинга
+        parsed = urlparse(link.replace("tg://", "http://"))
         query_params = parse_qs(parsed.query)
         
         server = query_params.get('server', [None])[0]
@@ -86,11 +87,10 @@ def fetch_proxies(file_path):
 
     print(f"🔍 Всего собрано уникальных ссылок: {len(links)}")
 
-    # === ШАГ 3: Фильтрация по TCP с таймаутом 0.2 сек ===
+    # === ШАГ 3: Фильтрация по TCP ===
     print("⚡ Начинаем проверку доступности по TCP (таймаут 0.2с)...")
     working_links = set()
     
-    # Используем ThreadPoolExecutor для быстрой параллельной проверки
     with ThreadPoolExecutor(max_workers=20) as executor:
         results = executor.map(check_proxy_tcp, links)
         for result in results:
@@ -105,7 +105,10 @@ def fetch_proxies(file_path):
         f.write("\n".join(sorted_links))
     print(f"💾 Сохранено {len(sorted_links)} рабочих прокси в файл {file_path}.")
 
-    # === ШАГ 5: Автоматическая генерация и обновление сайта index.html ===
+    # === Получаем текущее время для обновления сайта ===
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
+
+    # === ШАГ 5: Автоматическая генерация HTML ===
     print("🌐 Начинаем автоматическое обновление index.html...")
     
     html_template = f"""<!DOCTYPE html>
@@ -130,7 +133,8 @@ def fetch_proxies(file_path):
             padding-bottom: 10px;
             margin-bottom: 20px;
         }}
-        h2 {{ margin: 0; color: #333; font-size: 20px; }}
+        .title-block h2 {{ margin: 0; color: #333; font-size: 20px; }}
+        .title-block .update-time {{ font-size: 12px; color: #777; margin-top: 4px; }}
         .counter {{
             background-color: #2e7d32;
             color: white;
@@ -167,18 +171,19 @@ def fetch_proxies(file_path):
 <body>
 
     <div class="header-container">
-        <h2>MTProto Прокси</h2>
+        <div class="title-block">
+            <h2>MTProto Прокси</h2>
+            <div class="update-time">Обновлено: {current_time}</div>
+        </div>
         <div class="counter">Работает: {len(sorted_links)}</div>
     </div>
 
     <div class="proxy-grid">
 """
 
-    # Создаем синие кнопки для каждой рабочей ссылки
     for i, proxy in enumerate(sorted_links, 1):
         html_template += f'        <a href="{proxy}" class="proxy-link"><span>#{i} Подключить</span><span class="ping-text"></span></a>\n'
 
-    # Скрипт клика (перекрашивание в красный цвет)
     html_template += """    </div>
     <script>
         document.querySelectorAll('.proxy-link').forEach(button => {
@@ -190,10 +195,9 @@ def fetch_proxies(file_path):
 </body>
 </html>"""
 
-    # Перезаписываем сайт актуальным кодом
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-    print(f"✅ Файл index.html успешно сгенерирован! Добавлено рабочих кнопок: {len(sorted_links)}.")
+    print(f"✅ Файл index.html успешно сгенерирован! Время: {current_time}.")
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")
