@@ -20,15 +20,19 @@ def parse_proxy_from_link(link: str):
         raise ValueError("Неверный формат прокси-ссылки")
     return server, int(port)
 
-def check_proxy_worker(proxy_link: str, timeout: int = 3) -> tuple:
-    """Проверяет один прокси: возвращает (ссылка, True/False)."""
+def check_proxy_worker(proxy_link: str, timeout: float = 1.5) -> tuple:
     try:
         server, port = parse_proxy_from_link(proxy_link)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(timeout)
         sock.connect((server, port))
+        # Отправляем первые 4 байта MTProto v2 (0xEF + три нуля)
+        sock.send(b'\xef\x00\x00\x00')
+        # Ждём ответа (хотя бы 1 байт)
+        data = sock.recv(1024)
         sock.close()
-        return proxy_link, True
+        # Если получили ответ, считаем прокси рабочим
+        return proxy_link, len(data) > 0
     except Exception:
         return proxy_link, False
 
