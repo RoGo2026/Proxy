@@ -2,7 +2,7 @@ import requests
 import time
 import re
 import socket
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from urllib.parse import urlparse, parse_qs
 from concurrent.futures import ThreadPoolExecutor
 
@@ -106,7 +106,8 @@ def fetch_proxies(file_path):
     print(f"💾 Сохранено {len(sorted_links)} рабочих прокси в файл {file_path}.")
 
     # === Получаем текущее время для обновления сайта ===
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
+    moscow_tz = timezone(timedelta(hours=3))  # Московское время (UTC+3)
+    current_time = datetime.now(moscow_tz).strftime("%Y-%m-%d %H:%M:%S MSK")
 
     # === ШАГ 5: Автоматическая генерация HTML ===
     print("🌐 Начинаем автоматическое обновление index.html...")
