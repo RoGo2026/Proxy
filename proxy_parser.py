@@ -201,4 +201,82 @@ def fetch_proxies(file_path):
     print(f"✅ Файл index.html успешно сгенерирован! Время: {current_time}.")
 
 if __name__ == "__main__":
-    fetch_proxies("proxies.txt")
+    fetch_proxies("proxies.txt")  
+# =====================================================================
+# БЛОК АВТОМАТИЧЕСКОЙ РАССЫЛКИ В ТЕЛЕГРАМ
+# =====================================================================
+import os
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+USERS_FILE = "users.txt"
+PROXIES_FILE = "proxies.txt"
+
+if BOT_TOKEN:
+    print("🤖 Запуск модуля рассылки в Telegram...")
+    
+    # 1. Загружаем уже известных боту пользователей
+    known_users = set()
+    if os.path.exists(USERS_FILE):
+        with open(USERS_FILE, "r", encoding="utf-8") as f:
+            known_users = set(line.strip() for line in f if line.strip())
+
+    # 2. Проверяем Телеграм на наличие новых пользователей (кто нажал Старт)
+    try:
+        updates_url = f"https://api.telegram.org/bot{BOT_TOKEN}/getUpdates"
+        res = requests.get(updates_url, timeout=10)
+        if res.status_code == 200:
+            updates = res.json().get("result", [])
+            for update in updates:
+                if "message" in update and "chat" in update["message"]:
+                    chat_id = str(update["message"]["chat"]["id"])
+                    known_users.add(chat_id)
+    except Exception as e:
+        print(f"❌ Не удалось проверить новые сообщения: {e}")
+
+    # 3. Сохраняем обновленный список пользователей обратно в репозиторий
+    with open(USERS_FILE, "w", encoding="utf-8") as f:
+        f.write("\n".join(sorted(known_users)))
+
+    # 4. Читаем свежие прокси, которые только что собрал твой основной скрипт
+    if os.path.exists(PROXIES_FILE):
+        with open(PROXIES_FILE, "r", encoding="utf-8") as f:
+            links = [line.strip() for line in f if line.strip()]
+    else:
+        links = []
+
+    # 5. Если есть кому отправлять и есть что отправлять — делаем рассылку
+    if links and known_users:
+        # Формируем красивый текст и обычные кнопки-ссылки (без галочек)
+        text = f"✅ **Прокси обновлены!**\nВсего найдено рабочих: {len(links)}\n\nНажми на кнопку для подключения:"
+        
+        keyboard = {"inline_keyboard": []}
+        row = []
+        for i, link in enumerate(links, 1):
+            row.append({"text": f"🔌 #{i}", "url": link})
+            if len(row) == 3 or i == len(links):
+                keyboard["inline_keyboard"].append(row)
+                row = []
+
+        send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        
+        # Отправляем сообщение каждому пользователю из нашей базы данных
+        for chat_id in known_users:
+            payload = {
+                "chat_id": chat_id,
+                "text": text,
+                "parse_mode": "Markdown",
+                "reply_markup": keyboard
+            }
+            try:
+                # Отправляем
+                r = requests.post(send_url, json=payload, timeout=10)
+                if r.status_code == 200:
+                    print(f"   [+] Успешно отправлено пользователю: {chat_id}")
+                else:
+                    print(f"   [-] Ошибка отправки пользователю {chat_id}: {r.text}")
+            except Exception as e:
+                print(f"   [-] Ошибка связи при отправке пользователю {chat_id}: {e}")
+    else:
+        print("ℹ️ Рассылка отменена: либо нет прокси, либо боту еще никто никогда не писал.")
+else:
+    print("❌ Модуль рассылки не запущен: в Settings репозитория отсутствует BOT_TOKEN!")
