@@ -26,6 +26,14 @@ jobs:
       - name: Run script
         run: python proxy_parser.py
 
+      # --- ВОТ ЭТОТ НОВЫЙ БЛОК ---
+      - name: Send to Telegram
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python send_to_telegram.py
+      # ---------------------------
+
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
