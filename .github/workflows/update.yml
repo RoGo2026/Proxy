@@ -25,7 +25,7 @@ jobs:
 
       - name: Run script
         env:
-          # Передаем токен из секретов гитхаба в скрипт
+          # Передаем токен бота из секретов репозитория в скрипт
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: python proxy_parser.py
 
@@ -35,6 +35,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add index.html
           git add proxies.txt
+          # ВАЖНО: говорим Гитхабу сохранять файл со списком пользователей базы данных
           git add users.txt || echo "No users file yet"
-          git commit -m "Auto-update and send proxies [skip ci]" || echo "No changes to commit"
+          git commit -m "Auto-update and save users [skip ci]" || echo "No changes to commit"
           git push
