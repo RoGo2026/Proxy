@@ -8,10 +8,18 @@ from datetime import datetime, timezone, timedelta
 from urllib.parse import urlparse, parse_qs
 from concurrent.futures import ThreadPoolExecutor
 
-def check_proxy_hard(link, timeout=2.0):
+# =====================================================================
+# НАСТРОЙКИ ЖЕСТКОГО ОТБОРА
+# =====================================================================
+MAX_PING_SECONDS = 0.6  # Максимальное время ответа. Все, что медленнее 600мс - удаляем.
+SOCKET_TIMEOUT = 2.0    # Максимальное время на попытку подключения к порту
+
+def check_proxy_elite(link):
     """
-    Жёсткая встроенная проверка Fake-TLS без сторонних библиотек.
-    Пытается провести реальный SSL/TLS хендшейк с доменом маскировки.
+    Супер-жесткая проверка:
+    1. Проверка Fake-TLS
+    2. Измерение скорости (пинга) до миллисекунд
+    3. Тест на удержание соединения (отправка мусорных данных)
     """
     try:
         parsed = urlparse(link.replace("tg://", "http://"))
@@ -24,33 +32,54 @@ def check_proxy_hard(link, timeout=2.0):
         if not server or not port or not secret:
             return None
             
-        # ЖЕСТКОЕ ОТСЕИВАНИЕ 1: Только Fake-TLS прокси (секрет начинается на ee)
         if not secret.startswith("ee") or len(secret) <= 34:
             return None
             
-        # Достаем домен маскировки (fake domain) из конца секрета
         try:
             domain_hex = secret[34:]
             decoy_domain = bytes.fromhex(domain_hex).decode('utf-8')
         except Exception:
-            return None # Если секрет кривой или не расшифровывается
+            return None 
 
-        # ЖЕСТКОЕ ОТСЕИВАНИЕ 2: Строгий TCP коннект
-        sock = socket.create_connection((server, int(port)), timeout=timeout)
+        # Начинаем замер скорости
+        start_time = time.time()
         
-        # ЖЕСТКОЕ ОТСЕИВАНИЕ 3: Проверка реального ответа модуля Fake-TLS
+        sock = socket.create_connection((server, int(port)), timeout=SOCKET_TIMEOUT)
+        
         context = ssl.create_default_context()
         context.check_hostname = False
         context.verify_mode = ssl.CERT_NONE
         
-        # Обертываем сокет, имитируя HTTPS-подключение к домену-маскировке.
-        # Если провайдер рубит трафик или прокси висит — здесь будет ошибка.
+        # Проводим TLS-хендшейк
         secure_sock = context.wrap_socket(sock, server_hostname=decoy_domain)
-        secure_sock.close()
         
+        # Фиксируем время хендшейка
+        ping_time = time.time() - start_time
+        
+        # ЖЕСТКИЙ ОТСЕВ 1: Если прокси слишком медленный - в мусор
+        if ping_time > MAX_PING_SECONDS:
+            secure_sock.close()
+            return None
+            
+        # ЖЕСТКИЙ ОТСЕВ 2: Проверка на разрыв соединения (Drop Test)
+        # Отправляем 64 случайных байта. Мертвый бэкенд сразу сбросит сокет.
+        secure_sock.sendall(os.urandom(64))
+        
+        # Ставим микро-таймаут, чтобы проверить, не отвалился ли сервер
+        secure_sock.settimeout(0.5)
+        try:
+            secure_sock.recv(1)
+        except socket.timeout:
+            # Таймаут здесь — это ХОРОШО. Значит сервер жив и держит соединение.
+            pass
+        except Exception:
+            # Соединение сброшено сервером - бэкенд мертв
+            secure_sock.close()
+            return None
+            
+        secure_sock.close()
         return link
     except Exception:
-        # Таймаут, сброс соединения (ConnectionResetError) или любая другая ошибка
         return None
 
 def fetch_proxies(file_path):
@@ -115,19 +144,18 @@ def fetch_proxies(file_path):
 
     print(f"🔍 Всего собрано уникальных ссылок: {len(links)}")
 
-    # === ШАГ 3: Жесткая фильтрация через Fake-TLS handshake ===
-    print("⚡ Начинаем жесткую проверку (SSL хендшейк, таймаут 2.0с)...")
+    # === ШАГ 3: Элитная фильтрация (Пинг + Удержание) ===
+    print(f"⚡ Начинаем ЖЕСТКУЮ проверку (Лимит пинга: {MAX_PING_SECONDS}с)...")
     working_links = set()
     
     with ThreadPoolExecutor(max_workers=20) as executor:
-        # Используем нашу новую жесткую функцию
-        results = executor.map(check_proxy_hard, links)
+        results = executor.map(check_proxy_elite, links)
         for result in results:
             if result:
                 working_links.add(result)
                 
     sorted_links = sorted(list(working_links))
-    print(f"🎯 ИТОГ: ЖЕСТКУЮ проверку прошли {len(sorted_links)} из {len(links)} прокси.")
+    print(f"🎯 ИТОГ: Элитную проверку прошли {len(sorted_links)} из {len(links)} прокси.")
 
     # === ШАГ 4: Запись в текстовый файл proxies.txt ===
     with open(file_path, "w", encoding="utf-8") as f:
@@ -135,7 +163,7 @@ def fetch_proxies(file_path):
     print(f"💾 Сохранено {len(sorted_links)} рабочих прокси в файл {file_path}.")
 
     # === Получаем текущее время для обновления сайта ===
-    moscow_tz = timezone(timedelta(hours=3))  # Московское время (UTC+3)
+    moscow_tz = timezone(timedelta(hours=3))
     current_time = datetime.now(moscow_tz).strftime("%Y-%m-%d %H:%M:%S MSK")
 
     # === ШАГ 5: Автоматическая генерация HTML ===
@@ -242,13 +270,11 @@ PROXIES_FILE = "proxies.txt"
 if BOT_TOKEN:
     print("🤖 Запуск модуля рассылки в Telegram...")
     
-    # 1. Загружаем уже известных боту пользователей
     known_users = set()
     if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r", encoding="utf-8") as f:
             known_users = set(line.strip() for line in f if line.strip())
 
-    # 2. Проверяем Телеграм на наличие новых пользователей (кто нажал Старт)
     try:
         updates_url = f"https://api.telegram.org/bot{BOT_TOKEN}/getUpdates"
         res = requests.get(updates_url, timeout=10)
@@ -261,20 +287,16 @@ if BOT_TOKEN:
     except Exception as e:
         print(f"❌ Не удалось проверить новые сообщения: {e}")
 
-    # 3. Сохраняем обновленный список пользователей обратно в репозиторий
     with open(USERS_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(sorted(known_users)))
 
-    # 4. Читаем свежие прокси, которые только что собрал твой основной скрипт
     if os.path.exists(PROXIES_FILE):
         with open(PROXIES_FILE, "r", encoding="utf-8") as f:
             links = [line.strip() for line in f if line.strip()]
     else:
         links = []
 
-    # 5. Если есть кому отправлять и есть что отправлять — делаем рассылку
     if links and known_users:
-        # Формируем красивый текст и обычные кнопки-ссылки (без галочек)
         text = f"✅ **Прокси обновлены!**\nВсего найдено рабочих: {len(links)}\n\nНажми на кнопку для подключения:"
         
         keyboard = {"inline_keyboard": []}
@@ -287,7 +309,6 @@ if BOT_TOKEN:
 
         send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         
-        # Отправляем сообщение каждому пользователю из нашей базы данных
         for chat_id in known_users:
             payload = {
                 "chat_id": chat_id,
@@ -296,7 +317,6 @@ if BOT_TOKEN:
                 "reply_markup": keyboard
             }
             try:
-                # Отправляем
                 r = requests.post(send_url, json=payload, timeout=10)
                 if r.status_code == 200:
                     print(f"   [+] Успешно отправлено пользователю: {chat_id}")
