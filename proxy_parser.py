@@ -2,27 +2,55 @@ import requests
 import time
 import re
 import socket
+import ssl
+import os
 from datetime import datetime, timezone, timedelta
 from urllib.parse import urlparse, parse_qs
 from concurrent.futures import ThreadPoolExecutor
 
-def check_proxy_tcp(link, timeout=0.2):
-    """Проверяет доступность прокси по TCP с заданным таймаутом."""
+def check_proxy_hard(link, timeout=2.0):
+    """
+    Жёсткая встроенная проверка Fake-TLS без сторонних библиотек.
+    Пытается провести реальный SSL/TLS хендшейк с доменом маскировки.
+    """
     try:
-        # Парсим server и port из ссылки tg://proxy?server=...&port=...
         parsed = urlparse(link.replace("tg://", "http://"))
         query_params = parse_qs(parsed.query)
         
         server = query_params.get('server', [None])[0]
         port = query_params.get('port', [None])[0]
+        secret = query_params.get('secret', [None])[0]
         
-        if not server or not port:
+        if not server or not port or not secret:
             return None
             
-        # Пытаемся открыть TCP-соединение
-        with socket.create_connection((server, int(port)), timeout=timeout):
-            return link
-    except (socket.timeout, socket.error, ValueError, TypeError):
+        # ЖЕСТКОЕ ОТСЕИВАНИЕ 1: Только Fake-TLS прокси (секрет начинается на ee)
+        if not secret.startswith("ee") or len(secret) <= 34:
+            return None
+            
+        # Достаем домен маскировки (fake domain) из конца секрета
+        try:
+            domain_hex = secret[34:]
+            decoy_domain = bytes.fromhex(domain_hex).decode('utf-8')
+        except Exception:
+            return None # Если секрет кривой или не расшифровывается
+
+        # ЖЕСТКОЕ ОТСЕИВАНИЕ 2: Строгий TCP коннект
+        sock = socket.create_connection((server, int(port)), timeout=timeout)
+        
+        # ЖЕСТКОЕ ОТСЕИВАНИЕ 3: Проверка реального ответа модуля Fake-TLS
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+        
+        # Обертываем сокет, имитируя HTTPS-подключение к домену-маскировке.
+        # Если провайдер рубит трафик или прокси висит — здесь будет ошибка.
+        secure_sock = context.wrap_socket(sock, server_hostname=decoy_domain)
+        secure_sock.close()
+        
+        return link
+    except Exception:
+        # Таймаут, сброс соединения (ConnectionResetError) или любая другая ошибка
         return None
 
 def fetch_proxies(file_path):
@@ -87,18 +115,19 @@ def fetch_proxies(file_path):
 
     print(f"🔍 Всего собрано уникальных ссылок: {len(links)}")
 
-    # === ШАГ 3: Фильтрация по TCP ===
-    print("⚡ Начинаем проверку доступности по TCP (таймаут 0.2с)...")
+    # === ШАГ 3: Жесткая фильтрация через Fake-TLS handshake ===
+    print("⚡ Начинаем жесткую проверку (SSL хендшейк, таймаут 2.0с)...")
     working_links = set()
     
     with ThreadPoolExecutor(max_workers=20) as executor:
-        results = executor.map(check_proxy_tcp, links)
+        # Используем нашу новую жесткую функцию
+        results = executor.map(check_proxy_hard, links)
         for result in results:
             if result:
                 working_links.add(result)
                 
     sorted_links = sorted(list(working_links))
-    print(f"🎯 ИТОГ: Проверку прошли {len(sorted_links)} из {len(links)} прокси.")
+    print(f"🎯 ИТОГ: ЖЕСТКУЮ проверку прошли {len(sorted_links)} из {len(links)} прокси.")
 
     # === ШАГ 4: Запись в текстовый файл proxies.txt ===
     with open(file_path, "w", encoding="utf-8") as f:
@@ -202,11 +231,10 @@ def fetch_proxies(file_path):
 
 if __name__ == "__main__":
     fetch_proxies("proxies.txt")  
+
 # =====================================================================
 # БЛОК АВТОМАТИЧЕСКОЙ РАССЫЛКИ В ТЕЛЕГРАМ
 # =====================================================================
-import os
-
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 USERS_FILE = "users.txt"
 PROXIES_FILE = "proxies.txt"
