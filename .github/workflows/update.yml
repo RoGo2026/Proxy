@@ -1,41 +1,44 @@
-name: Update Proxies Site
+name: Auto Proxy Parser and Deploy
 
 on:
   schedule:
+    # Запуск каждые 30 минут
     - cron: '*/30 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: # Оставляем кнопку ручного запуска
 
 permissions:
-  contents: write
+  contents: write # Даем экшену права на запись, чтобы он мог пушить обновленный сайт
 
 jobs:
-  build-and-deploy:
+  build-and-parse:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install requirements
-        run: pip install requests
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
-      - name: Run script
+      - name: Run Proxy Parser
         env:
-          # Передаем токен бота из секретов репозитория в скрипт
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: python proxy_parser.py
 
-      - name: Commit and push changes
+      - name: Commit and Push Updates
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add index.html
-          git add proxies.txt
-          # ВАЖНО: говорим Гитхабу сохранять файл со списком пользователей базы данных
-          git add users.txt || echo "No users file yet"
-          git commit -m "Auto-update and save users [skip ci]" || echo "No changes to commit"
-          git push
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Добавляем измененные скриптом файлы в индекс Git
+          git add proxies.txt index.html users.txt
+          
+          # Делаем коммит и пуш только если файлы реально изменились
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Свежие элитные прокси и сайт" && git push)
