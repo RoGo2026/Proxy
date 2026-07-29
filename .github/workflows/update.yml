@@ -1,10 +1,7 @@
 name: Auto Proxy Parser and Deploy
 
 on:
-  schedule:
-    # Запуск каждые 30 минут
-    - cron: '*/30 * * * *'
-  workflow_dispatch: # Оставляем кнопку ручного запуска
+ workflow_dispatch: # Оставляем кнопку ручного запуска
 
 permissions:
   contents: write # Даем экшену права на запись, чтобы он мог пушить обновленный сайт
