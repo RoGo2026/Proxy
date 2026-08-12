@@ -1,174 +1,87 @@
-import requests
-import time
-import re
-import socket
-import ssl
+import asyncio
 import os
+import re
+import sys
 from datetime import datetime, timezone, timedelta
-from urllib.parse import urlparse, parse_qs
-from concurrent.futures import ThreadPoolExecutor
+
+from telethon import TelegramClient
+from telethon.sessions import StringSession
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # =====================================================================
-# НАСТРОЙКИ ЖЕСТКОГО ОТБОРА
+# НАСТРОЙКИ
 # =====================================================================
-MAX_PING_SECONDS = 1  # Максимальное время ответа. Все, что медленнее 600мс - удаляем.
-SOCKET_TIMEOUT = 2.0    # Максимальное время на попытку подключения к порту
+CHANNEL = "YOUR_CHANNEL"            # Канал «MIX КИБЕРПОРТАЛ»
+TOPIC_ID = YOUR_TOPIC_ID                # Топик «Прокси»
+MESSAGES_LIMIT = 20              # Сколько последних сообщений топика брать
+PROXIES_FILE = "proxies.txt"
+USERS_FILE = "users.txt"
 
-def check_proxy_elite(link):
-    """
-    Супер-жесткая проверка:
-    1. Проверка Fake-TLS
-    2. Измерение скорости (пинга) до миллисекунд
-    3. Тест на удержание соединения (отправка мусорных данных)
-    """
+API_ID = int(os.getenv("TELETHON_API_ID", "0"))
+API_HASH = os.getenv("TELETHON_API_HASH", "")
+STRING_SESSION = os.getenv("TELETHON_SESSION", "")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+
+PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
+
+
+# =====================================================================
+# ШАГ 1: Забираем прокси из Telegram (топик «Прокси»)
+# =====================================================================
+async def collect_proxies():
+    if not API_ID or not API_HASH or not STRING_SESSION:
+        print("❌ Ошибка: не заданы TELETHON_API_ID / TELETHON_API_HASH / TELETHON_SESSION.")
+        return []
+
+    print("📡 Подключаемся к Telegram...")
+    client = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
+    await client.start()
+
     try:
-        parsed = urlparse(link.replace("tg://", "http://"))
-        query_params = parse_qs(parsed.query)
-        
-        server = query_params.get('server', [None])[0]
-        port = query_params.get('port', [None])[0]
-        secret = query_params.get('secret', [None])[0]
-        
-        if not server or not port or not secret:
-            return None
-            
-        if not secret.startswith("ee") or len(secret) <= 34:
-            return None
-            
-        try:
-            domain_hex = secret[34:]
-            decoy_domain = bytes.fromhex(domain_hex).decode('utf-8')
-        except Exception:
-            return None 
+        me = await client.get_me()
+        print(f"👤 Аккаунт: {me.first_name} @{me.username}")
 
-        # Начинаем замер скорости
-        start_time = time.time()
-        
-        sock = socket.create_connection((server, int(port)), timeout=SOCKET_TIMEOUT)
-        
-        context = ssl.create_default_context()
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
-        
-        # Проводим TLS-хендшейк
-        secure_sock = context.wrap_socket(sock, server_hostname=decoy_domain)
-        
-        # Фиксируем время хендшейка
-        ping_time = time.time() - start_time
-        
-        # ЖЕСТКИЙ ОТСЕВ 1: Если прокси слишком медленный - в мусор
-        if ping_time > MAX_PING_SECONDS:
-            secure_sock.close()
-            return None
-            
-        # ЖЕСТКИЙ ОТСЕВ 2: Проверка на разрыв соединения (Drop Test)
-        # Отправляем 64 случайных байта. Мертвый бэкенд сразу сбросит сокет.
-        secure_sock.sendall(os.urandom(64))
-        
-        # Ставим микро-таймаут, чтобы проверить, не отвалился ли сервер
-        secure_sock.settimeout(0.5)
-        try:
-            secure_sock.recv(1)
-        except socket.timeout:
-            # Таймаут здесь — это ХОРОШО. Значит сервер жив и держит соединение.
-            pass
-        except Exception:
-            # Соединение сброшено сервером - бэкенд мертв
-            secure_sock.close()
-            return None
-            
-        secure_sock.close()
-        return link
-    except Exception:
-        return None
+        channel = await client.get_entity(CHANNEL)
+        print(f"📢 Канал: {getattr(channel, 'title', 'без названия')}")
 
-def fetch_proxies(file_path):
-    links = set()
-    print("📁 Собираем прокси с нуля.")
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json, text/html, */*",
-        "Referer": "https://mtprotoproxy.app/ru/",
-        "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
-    }
+        print("📥 Скачиваем последние сообщения топика «Прокси»...")
+        messages = await client.get_messages(channel, reply_to=TOPIC_ID, limit=MESSAGES_LIMIT)
+        print(f"Скачано сообщений: {len(messages)}")
 
-    # === ШАГ 1: Охота на отборные прокси с главной страницы ===
-    print("🌟 Ищем 'отборные' прокси прямо на главной...")
-    try:
-        main_page = requests.get("https://mtprotoproxy.app/ru/", headers=headers, timeout=20)
-        featured = re.findall(r'tg://proxy\?[^"\'\s<>]+', main_page.text)
-        for link in featured:
-            links.add(link)
-        print(f"✨ С главной страницы вытащено ссылок: {len(featured)}")
-    except Exception as e:
-        print(f"⚠️ Ошибка при чтении главной страницы: {e}")
-        
-    # === ШАГ 2: Сбор через API ===
-    page = 1
-    while True:
-        try:
-            url = f"https://mtprotoproxy.app/api/proxies?page={page}"
-            print(f"➡️ Отправляю запрос API: {url}")
-            response = requests.get(url, headers=headers, timeout=20)
-            
-            if response.status_code != 200:
-                print(f"❌ Сервер отклонил запрос API. Код: {response.status_code}")
-                break
-                
-            try:
-                data = response.json()
-            except Exception as e:
-                print(f"❌ Не удалось прочитать JSON: {e}")
-                break
-                
-            if not data.get('ok') or not data.get('items'):
-                break
-                
-            for item in data['items']:
-                link = f"tg://proxy?server={item['server']}&port={item['port']}&secret={item['secret']}"
-                links.add(link)
-                
-            print(f"✅ Страница {page} API успешно обработана.")
-            
-            if not data.get('has_more'):
-                print("🏁 Это была последняя страница API.")
-                break
-                
-            page += 1
-            time.sleep(1.5)
-            
-        except Exception as e:
-            print(f"❌ Критическая ошибка сети API: {e}")
-            break
+        proxies = []
+        seen = set()
+        proxy_msgs = 0
+        for message in messages:
+            text = message.text or ""
+            if "tg://proxy" not in text:
+                continue
+            proxy_msgs += 1
+            for link in PROXY_RE.findall(text):
+                if link not in seen:
+                    seen.add(link)
+                    proxies.append(link)
 
-    print(f"🔍 Всего собрано уникальных ссылок: {len(links)}")
+        print(f"Сообщений с прокси: {proxy_msgs}")
+        print(f"Уникальных прокси: {len(proxies)}")
+        return proxies
+    finally:
+        await client.disconnect()
 
-    # === ШАГ 3: Элитная фильтрация (Пинг + Удержание) ===
-    print(f"⚡ Начинаем ЖЕСТКУЮ проверку (Лимит пинга: {MAX_PING_SECONDS}с)...")
-    working_links = set()
-    
-    with ThreadPoolExecutor(max_workers=20) as executor:
-        results = executor.map(check_proxy_elite, links)
-        for result in results:
-            if result:
-                working_links.add(result)
-                
-    sorted_links = sorted(list(working_links))
-    print(f"🎯 ИТОГ: Элитную проверку прошли {len(sorted_links)} из {len(links)} прокси.")
 
-    # === ШАГ 4: Запись в текстовый файл proxies.txt ===
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(sorted_links))
-    print(f"💾 Сохранено {len(sorted_links)} рабочих прокси в файл {file_path}.")
+# =====================================================================
+# ШАГ 2: Запись в proxies.txt + генерация сайта index.html
+# =====================================================================
+def save_site(links):
+    with open(PROXIES_FILE, "w", encoding="utf-8") as f:
+        f.write("\n".join(sorted(links)))
+    print(f"💾 Сохранено {len(links)} прокси в файл {PROXIES_FILE}.")
 
-    # === Получаем текущее время для обновления сайта ===
     moscow_tz = timezone(timedelta(hours=3))
     current_time = datetime.now(moscow_tz).strftime("%Y-%m-%d %H:%M:%S MSK")
 
-    # === ШАГ 5: Автоматическая генерация HTML ===
-    print("🌐 Начинаем автоматическое обновление index.html...")
-    
+    print("🌐 Генерируем index.html...")
+
     html_template = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -233,13 +146,13 @@ def fetch_proxies(file_path):
             <h2>MTProto Прокси</h2>
             <div class="update-time">Обновлено: {current_time}</div>
         </div>
-        <div class="counter">Работает: {len(sorted_links)}</div>
+        <div class="counter">Прокси: {len(links)}</div>
     </div>
 
     <div class="proxy-grid">
 """
 
-    for i, proxy in enumerate(sorted_links, 1):
+    for i, proxy in enumerate(sorted(links), 1):
         html_template += f'        <a href="{proxy}" class="proxy-link"><span>#{i} Подключить</span><span class="ping-text"></span></a>\n'
 
     html_template += """    </div>
@@ -255,76 +168,85 @@ def fetch_proxies(file_path):
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-    print(f"✅ Файл index.html успешно сгенерирован! Время: {current_time}.")
+    print(f"✅ index.html сгенерирован. Время: {current_time}.")
 
-if __name__ == "__main__":
-    fetch_proxies("proxies.txt")  
 
 # =====================================================================
-# БЛОК АВТОМАТИЧЕСКОЙ РАССЫЛКИ В ТЕЛЕГРАМ
+# ШАГ 3: Рассылка в Telegram боту
 # =====================================================================
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-USERS_FILE = "users.txt"
-PROXIES_FILE = "proxies.txt"
+def send_to_telegram(links):
+    if not BOT_TOKEN:
+        print("ℹ️ Рассылка пропущена: BOT_TOKEN не задан.")
+        return
 
-if BOT_TOKEN:
-    print("🤖 Запуск модуля рассылки в Telegram...")
-    
+    print("🤖 Отправляем прокси в Telegram...")
+
     known_users = set()
     if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r", encoding="utf-8") as f:
             known_users = set(line.strip() for line in f if line.strip())
 
+    import requests
+
     try:
         updates_url = f"https://api.telegram.org/bot{BOT_TOKEN}/getUpdates"
         res = requests.get(updates_url, timeout=10)
         if res.status_code == 200:
-            updates = res.json().get("result", [])
-            for update in updates:
-                if "message" in update and "chat" in update["message"]:
-                    chat_id = str(update["message"]["chat"]["id"])
-                    known_users.add(chat_id)
+            for update in res.json().get("result", []):
+                msg = update.get("message") or {}
+                chat = msg.get("chat") or {}
+                if "id" in chat:
+                    known_users.add(str(chat["id"]))
     except Exception as e:
-        print(f"❌ Не удалось проверить новые сообщения: {e}")
+        print(f"⚠️ Не удалось проверить сообщения боту: {e}")
 
     with open(USERS_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(sorted(known_users)))
 
-    if os.path.exists(PROXIES_FILE):
-        with open(PROXIES_FILE, "r", encoding="utf-8") as f:
-            links = [line.strip() for line in f if line.strip()]
-    else:
-        links = []
+    if not links:
+        print("ℹ️ Рассылка отменена: прокси нет.")
+        return
+    if not known_users:
+        print("ℹ️ Рассылка отменена: боту еще никто не писал.")
+        return
 
-    if links and known_users:
-        text = f"✅ **Прокси обновлены!**\nВсего найдено рабочих: {len(links)}\n\nНажми на кнопку для подключения:"
-        
-        keyboard = {"inline_keyboard": []}
-        row = []
-        for i, link in enumerate(links, 1):
-            row.append({"text": f"🔌 #{i}", "url": link})
-            if len(row) == 3 or i == len(links):
-                keyboard["inline_keyboard"].append(row)
-                row = []
+    text = f"✅ **Прокси обновлены!**\nВсего прокси: {len(links)}\n\nНажми на кнопку для подключения:"
 
-        send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-        
-        for chat_id in known_users:
-            payload = {
-                "chat_id": chat_id,
-                "text": text,
-                "parse_mode": "Markdown",
-                "reply_markup": keyboard
-            }
-            try:
-                r = requests.post(send_url, json=payload, timeout=10)
-                if r.status_code == 200:
-                    print(f"   [+] Успешно отправлено пользователю: {chat_id}")
-                else:
-                    print(f"   [-] Ошибка отправки пользователю {chat_id}: {r.text}")
-            except Exception as e:
-                print(f"   [-] Ошибка связи при отправке пользователю {chat_id}: {e}")
-    else:
-        print("ℹ️ Рассылка отменена: либо нет прокси, либо боту еще никто никогда не писал.")
-else:
-    print("❌ Модуль рассылки не запущен: в Settings репозитория отсутствует BOT_TOKEN!")
+    keyboard = {"inline_keyboard": []}
+    row = []
+    for i, link in enumerate(links, 1):
+        row.append({"text": f"🔌 #{i}", "url": link})
+        if len(row) == 3 or i == len(links):
+            keyboard["inline_keyboard"].append(row)
+            row = []
+
+    send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    for chat_id in known_users:
+        payload = {
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "Markdown",
+            "reply_markup": keyboard,
+        }
+        try:
+            r = requests.post(send_url, json=payload, timeout=10)
+            if r.status_code == 200:
+                print(f"   [+] Отправлено пользователю: {chat_id}")
+            else:
+                print(f"   [-] Ошибка отправки {chat_id}: {r.text}")
+        except Exception as e:
+            print(f"   [-] Ошибка связи при отправке {chat_id}: {e}")
+
+
+async def main():
+    links = await collect_proxies()
+    if not links:
+        print("❌ Прокси не найдены, выходим.")
+        return
+    save_site(links)
+    send_to_telegram(links)
+    print("✅ Готово!")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
