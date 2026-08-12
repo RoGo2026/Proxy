@@ -18,10 +18,11 @@ MESSAGES_LIMIT = 20              # Сколько последних сообщ�
 PROXIES_FILE = "proxies.txt"
 USERS_FILE = "users.txt"
 
-API_ID = int(os.getenv("TELETHON_API_ID", "0"))
-API_HASH = os.getenv("TELETHON_API_HASH", "")
-STRING_SESSION = os.getenv("TELETHON_SESSION", "")
-BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+API_ID_RAW = os.getenv("TELETHON_API_ID", "").strip()
+API_HASH = os.getenv("TELETHON_API_HASH", "").strip()
+STRING_SESSION = os.getenv("TELETHON_SESSION", "").strip()
+API_ID = int(API_ID_RAW) if API_ID_RAW.isdigit() else 0
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 
 PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
 
@@ -30,8 +31,17 @@ PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
 # ШАГ 1: Забираем прокси из Telegram (топик «Прокси»)
 # =====================================================================
 async def collect_proxies():
-    if not API_ID or not API_HASH or not STRING_SESSION:
-        print("❌ Ошибка: не заданы TELETHON_API_ID / TELETHON_API_HASH / TELETHON_SESSION.")
+    missing = []
+    if not API_ID:
+        missing.append("TELETHON_API_ID")
+    if not API_HASH:
+        missing.append("TELETHON_API_HASH")
+    if not STRING_SESSION:
+        missing.append("TELETHON_SESSION")
+    if missing:
+        print("❌ Ошибка: в Settings репозитория не заданы секреты:")
+        for name in missing:
+            print(f"   - {name}")
         return []
 
     print("📡 Подключаемся к Telegram...")
