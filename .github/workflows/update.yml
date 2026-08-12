@@ -42,7 +42,13 @@ jobs:
           TELETHON_SESSION: ${{ secrets.TELETHON_SESSION }}
           TELETHON_CHANNEL: ${{ secrets.TELETHON_CHANNEL }}
           TELETHON_TOPIC_ID: ${{ secrets.TELETHON_TOPIC_ID }}
+          TELETHON_USERS: ${{ secrets.TELETHON_USERS }}
         run: .venv/bin/python proxy_parser.py
+
+      - name: Update Users Secret
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: .venv/bin/python update_secret.py
 
       - name: Commit and Push Updates
         run: |
@@ -50,7 +56,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Добавляем измененные скриптом файлы в индекс Git
-          git add proxies.txt index.html users.txt
+          git add proxies.txt index.html
           
           # Делаем коммит и пуш только если файлы реально изменились
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Свежие элитные прокси и сайт" && git push)

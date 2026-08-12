@@ -23,6 +23,7 @@ API_ID = int(API_ID_RAW) if API_ID_RAW.isdigit() else 0
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 CHANNEL = os.getenv("TELETHON_CHANNEL", "").strip()
 TOPIC_ID = int(os.getenv("TELETHON_TOPIC_ID", "0").strip() or 0)
+USERS_RAW = os.getenv("TELETHON_USERS", "").strip()
 
 PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
 
@@ -185,9 +186,9 @@ def send_to_telegram(links):
     print("🤖 Отправляем прокси в Telegram...")
 
     known_users = set()
-    if os.path.exists(USERS_FILE):
-        with open(USERS_FILE, "r", encoding="utf-8") as f:
-            known_users = set(line.strip() for line in f if line.strip())
+    for part in re.split(r"[\s,;]+", USERS_RAW):
+        if part:
+            known_users.add(part)
 
     import requests
 
