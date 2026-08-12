@@ -12,9 +12,9 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 # =====================================================================
 # НАСТРОЙКИ
 # =====================================================================
-CHANNEL = "YOUR_CHANNEL"            # Канал «MIX КИБЕРПОРТАЛ»
-TOPIC_ID = YOUR_TOPIC_ID                # Топик «Прокси»
-MESSAGES_LIMIT = 20              # Сколько последних сообщений топика брать
+CHANNEL = "YOUR_CHANNEL" 
+TOPIC_ID = YOUR_TOPIC_ID 
+MESSAGES_LIMIT = 5 
 PROXIES_FILE = "proxies.txt"
 USERS_FILE = "users.txt"
 
@@ -26,9 +26,6 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 
 PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
 
-
-# =====================================================================
-# ШАГ 1: Забираем прокси из Telegram (топик «Прокси»)
 # =====================================================================
 async def collect_proxies():
     missing = []
@@ -78,9 +75,6 @@ async def collect_proxies():
     finally:
         await client.disconnect()
 
-
-# =====================================================================
-# ШАГ 2: Запись в proxies.txt + генерация сайта index.html
 # =====================================================================
 def save_site(links):
     with open(PROXIES_FILE, "w", encoding="utf-8") as f:
@@ -180,9 +174,6 @@ def save_site(links):
         f.write(html_template)
     print(f"✅ index.html сгенерирован. Время: {current_time}.")
 
-
-# =====================================================================
-# ШАГ 3: Рассылка в Telegram боту
 # =====================================================================
 def send_to_telegram(links):
     if not BOT_TOKEN:
@@ -251,7 +242,7 @@ def send_to_telegram(links):
 async def main():
     links = await collect_proxies()
     if not links:
-        print("❌ Прокси не найдены, выходим.")
+        print("❌ Прокси не найдены.")
         return
     save_site(links)
     send_to_telegram(links)
