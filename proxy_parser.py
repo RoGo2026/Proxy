@@ -12,8 +12,6 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 # =====================================================================
 # НАСТРОЙКИ
 # =====================================================================
-CHANNEL = "YOUR_CHANNEL" 
-TOPIC_ID = YOUR_TOPIC_ID 
 MESSAGES_LIMIT = 5 
 PROXIES_FILE = "proxies.txt"
 USERS_FILE = "users.txt"
@@ -23,6 +21,8 @@ API_HASH = os.getenv("TELETHON_API_HASH", "").strip()
 STRING_SESSION = os.getenv("TELETHON_SESSION", "").strip()
 API_ID = int(API_ID_RAW) if API_ID_RAW.isdigit() else 0
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+CHANNEL = os.getenv("TELETHON_CHANNEL", "").strip()
+TOPIC_ID = int(os.getenv("TELETHON_TOPIC_ID", "0").strip() or 0)
 
 PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
 
@@ -35,6 +35,10 @@ async def collect_proxies():
         missing.append("TELETHON_API_HASH")
     if not STRING_SESSION:
         missing.append("TELETHON_SESSION")
+    if not CHANNEL:
+        missing.append("TELETHON_CHANNEL")
+    if not TOPIC_ID:
+        missing.append("TELETHON_TOPIC_ID")
     if missing:
         print("❌ Ошибка: в Settings репозитория не заданы секреты:")
         for name in missing:
@@ -50,9 +54,7 @@ async def collect_proxies():
         print(f"👤 Аккаунт: {me.first_name} @{me.username}")
 
         channel = await client.get_entity(CHANNEL)
-        print(f"📢 Канал: {getattr(channel, 'title', 'без названия')}")
-
-        print("📥 Скачиваем последние сообщения топика «Прокси»...")
+        print("📥 Скачиваем последние сообщения...")
         messages = await client.get_messages(channel, reply_to=TOPIC_ID, limit=MESSAGES_LIMIT)
         print(f"Скачано сообщений: {len(messages)}")
 

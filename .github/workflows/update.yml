@@ -40,6 +40,8 @@ jobs:
           TELETHON_API_ID: ${{ secrets.TELETHON_API_ID }}
           TELETHON_API_HASH: ${{ secrets.TELETHON_API_HASH }}
           TELETHON_SESSION: ${{ secrets.TELETHON_SESSION }}
+          TELETHON_CHANNEL: ${{ secrets.TELETHON_CHANNEL }}
+          TELETHON_TOPIC_ID: ${{ secrets.TELETHON_TOPIC_ID }}
         run: .venv/bin/python proxy_parser.py
 
       - name: Commit and Push Updates
