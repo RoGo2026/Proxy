@@ -12,7 +12,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 # =====================================================================
 # НАСТРОЙКИ
 # =====================================================================
-MESSAGES_LIMIT = 5 
+MESSAGES_LIMIT = 7
 PROXIES_FILE = "proxies.txt"
 USERS_FILE = "users.txt"
 
