@@ -3,7 +3,7 @@ name: Cleanup GitHub Pages Deployments
 on:
   workflow_dispatch:  # Запуск вручную
   schedule:
-     - cron: '30 */6 * * *'
+     - cron: '0 */20 * * *'
        timezone: "Europe/Moscow"
 
 permissions:
