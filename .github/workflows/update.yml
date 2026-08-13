@@ -64,4 +64,4 @@ jobs:
           git add index.html
           
           # Делаем коммит и пуш только если файлы реально изменились
-          git diff --quiet && git diff --staged --quiet || (          git commit -m "Auto-update: Свежие прокси" && git push)
+          git diff --quiet && git diff --staged --quiet || (          git commit -m "Auto-update" && git push)
