@@ -25,7 +25,7 @@ CHANNEL = os.getenv("TELETHON_CHANNEL", "").strip()
 TOPIC_ID = int(os.getenv("TELETHON_TOPIC_ID", "0").strip() or 0)
 USERS_RAW = os.getenv("TELETHON_USERS", "").strip()
 
-PROXY_RE = re.compile(r"tg://proxy\?[^\s<>]+")
+PROXY_RE = re.compile(r"(?:tg://|https://t\.me/)proxy\?[^\s<>]+")
 
 # =====================================================================
 async def collect_proxies():
@@ -64,10 +64,11 @@ async def collect_proxies():
         proxy_msgs = 0
         for message in messages:
             text = message.text or ""
-            if "tg://proxy" not in text:
+            if "proxy" not in text:
                 continue
             proxy_msgs += 1
             for link in PROXY_RE.findall(text):
+                link = link.replace("https://t.me/proxy?", "tg://proxy?")
                 if link not in seen:
                     seen.add(link)
                     proxies.append(link)
