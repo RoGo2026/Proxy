@@ -217,7 +217,7 @@ def send_to_telegram(links):
 
     send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    CHUNK_SIZE = 12
+    CHUNK_SIZE = 20
 
     def chunks(items, size):
         for i in range(0, len(items), size):
