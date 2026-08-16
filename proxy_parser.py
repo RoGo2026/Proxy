@@ -215,32 +215,46 @@ def send_to_telegram(links):
         print("ℹ️ Рассылка отменена: боту еще никто не писал.")
         return
 
-    text = f"✅ **Прокси обновлены!**\nВсего прокси: {len(links)}\n\nНажми на кнопку для подключения:"
-
-    keyboard = {"inline_keyboard": []}
-    row = []
-    for i, link in enumerate(links, 1):
-        row.append({"text": f"🔌 #{i}", "url": link})
-        if len(row) == 3 or i == len(links):
-            keyboard["inline_keyboard"].append(row)
-            row = []
-
     send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
+    CHUNK_SIZE = 12
+
+    def chunks(items, size):
+        for i in range(0, len(items), size):
+            yield items[i:i + size]
+
     for chat_id in known_users:
-        payload = {
-            "chat_id": chat_id,
-            "text": text,
-            "parse_mode": "Markdown",
-            "reply_markup": keyboard,
-        }
-        try:
-            r = requests.post(send_url, json=payload, timeout=10)
-            if r.status_code == 200:
-                print(f"   [+] Отправлено пользователю: {chat_id}")
+        parts = list(chunks(links, CHUNK_SIZE))
+        total = len(parts)
+
+        for idx, chunk_links in enumerate(parts, 1):
+            if total == 1:
+                text = f"✅ **Прокси обновлены!**\nВсего прокси: {len(links)}\n\nНажми на кнопку для подключения:"
             else:
-                print(f"   [-] Ошибка отправки {chat_id}: {r.text}")
-        except Exception as e:
-            print(f"   [-] Ошибка связи при отправке {chat_id}: {e}")
+                text = f"Прокси ({idx}/{total}):"
+
+            keyboard = {"inline_keyboard": []}
+            row = []
+            for i, link in enumerate(chunk_links, 1):
+                row.append({"text": f"🔌 #{i}", "url": link})
+                if len(row) == 3 or i == len(chunk_links):
+                    keyboard["inline_keyboard"].append(row)
+                    row = []
+
+            payload = {
+                "chat_id": chat_id,
+                "text": text,
+                "parse_mode": "Markdown",
+                "reply_markup": keyboard,
+            }
+            try:
+                r = requests.post(send_url, json=payload, timeout=10)
+                if r.status_code == 200:
+                    print(f"   [+] Отправлено пользователю: {chat_id} (часть {idx}/{total})")
+                else:
+                    print(f"   [-] Ошибка отправки {chat_id} (часть {idx}/{total}): {r.text}")
+            except Exception as e:
+                print(f"   [-] Ошибка связи при отправке {chat_id}: {e}")
 
 
 async def main():
