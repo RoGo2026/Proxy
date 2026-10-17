@@ -1,0 +1,6 @@
+tg://proxy?server=edge.turboass.live&port=443&secret=ee51116f4018a2b3dfc9bda286c52afe9f656467652e747572626f6173732e6c697665
+tg://proxy?server=mtproxygram.lol&port=853&secret=ee608f40eb7d1aad1fbc6405c5ed2669616d742e6d7470726f78796772616d2e6f6e6c696e65
+tg://proxy?server=redflag.yazaebalsyadelatproxy.co.uk&port=443&secret=ee69e899d89ec68e220ca177557322b27f726564666c61672e79617a616562616c73796164656c617470726f78792e6363
+tg://proxy?server=redflag.yazaebalsyadelatproxy.uk&port=443&secret=ee69e899d89ec68e220ca177557322b27f726564666c61672e79617a616562616c73796164656c617470726f78792e6363
+tg://proxy?server=sky.pebblewisp.xyz&port=443&secret=ee0e2327b9decafd82d7ea2050f293458d6c69746536342e73697465
+tg://proxy?server=sun.lanternmoss.top&port=443&secret=ee0e2327b9decafd82d7ea2050f293458d6c69746536342e73697465

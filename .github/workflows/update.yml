@@ -1,7 +1,21 @@
 name: Auto Proxy Parser and Deploy
 
 on:
- workflow_dispatch: # Оставляем кнопку ручного запуска
+  workflow_dispatch: # Оставляем кнопку ручного запуска
+    inputs:
+      broadcast:
+        description: 'Отправить обновлённый список в Telegram'
+        required: false
+        default: true
+        type: boolean
+
+  schedule:
+    - cron: '13,43 * * * *' # Каждые 30 минут молча обновляем сайт
+      timezone: 'Europe/Moscow'
+
+concurrency:
+  group: proxy-update
+  cancel-in-progress: false
 
 permissions:
   contents: write # Даем экшену права на запись, чтобы он мог пушить обновленный сайт
@@ -36,6 +50,7 @@ jobs:
 
       - name: Run Proxy Parser
         env:
+          BROADCAST: ${{ inputs.broadcast }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           TELETHON_API_ID: ${{ secrets.TELETHON_API_ID }}
           TELETHON_API_HASH: ${{ secrets.TELETHON_API_HASH }}
@@ -60,8 +75,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Добавляем измененный скриптом файл сайта в индекс Git
-          git add index.html
+          # Добавляем файлы, обновленные скриптом
+          git add index.html proxies_pool.txt
           
           # Делаем коммит и пуш только если файлы реально изменились
           git diff --quiet && git diff --staged --quiet || (          git commit -m "Auto-update" && git push)
