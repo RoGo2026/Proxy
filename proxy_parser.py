@@ -46,7 +46,6 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 CHANNEL = os.getenv("TELETHON_CHANNEL", "").strip()
 TOPIC_ID = int(os.getenv("TELETHON_TOPIC_ID", "0").strip() or 0)
 USERS_RAW = os.getenv("TELETHON_USERS", "").strip()
-BROADCAST = os.getenv("BROADCAST", "1").strip().lower() not in ("", "0", "false", "no")
 
 PROXY_RE = re.compile(r"(?:tg://|https://t\.me/)proxy\?[^\s<>\"']+", re.IGNORECASE)
 SERVER_RE = re.compile(r"^[A-Za-z0-9._\-]+$")
@@ -389,14 +388,17 @@ def save_site(links):
     print(f"✅ index.html сгенерирован. Прокси: {len(links)}. Время: {current_time}.")
 
 # =====================================================================
-def collect_users():
+def send_to_telegram(links):
+    if not BOT_TOKEN:
+        print("ℹ️ Рассылка пропущена: BOT_TOKEN не задан.")
+        return
+
+    print("🤖 Отправляем прокси в Telegram...")
+
     known_users = set()
     for part in re.split(r"[\s,;]+", USERS_RAW):
         if part:
             known_users.add(part)
-
-    if not BOT_TOKEN:
-        return known_users
 
     try:
         response = requests.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getUpdates", timeout=10)
@@ -409,22 +411,9 @@ def collect_users():
     except Exception as e:
         print(f"⚠️ Не удалось проверить сообщения боту: {e}")
 
-    return known_users
-
-
-def save_users(users):
     with open(USERS_FILE, "w", encoding="utf-8") as f:
-        f.write("\n".join(sorted(users)))
-    print(f"👥 Пользователей в базе: {len(users)}")
+        f.write("\n".join(sorted(known_users)))
 
-
-def send_to_telegram(links, known_users):
-    if not BROADCAST:
-        print("ℹ️ Рассылка отключена (BROADCAST=0) — обновлён только сайт.")
-        return
-    if not BOT_TOKEN:
-        print("ℹ️ Рассылка пропущена: BOT_TOKEN не задан.")
-        return
     if not links:
         print("ℹ️ Рассылка отменена: прокси нет.")
         return
@@ -432,7 +421,6 @@ def send_to_telegram(links, known_users):
         print("ℹ️ Рассылка отменена: боту еще никто не писал.")
         return
 
-    print("🤖 Отправляем прокси в Telegram...")
     send_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
     CHUNK_SIZE = 20
@@ -446,7 +434,7 @@ def send_to_telegram(links, known_users):
         total = len(parts)
 
         for idx, chunk_links in enumerate(parts, 1):
-            if idx == 1:
+            if total == 1:
                 text = f"✅ **Прокси обновлены!**\nВсего прокси: {len(links)}\n\nНажми на кнопку для подключения:"
             else:
                 text = f"Прокси ({idx}/{total}):"
@@ -486,10 +474,7 @@ async def main():
 
     links = [item["link"] for item in pool]
     save_site(links)
-
-    known_users = collect_users()
-    save_users(known_users)
-    send_to_telegram(links, known_users)
+    send_to_telegram(links)
 
     print("✅ Готово!")
 
