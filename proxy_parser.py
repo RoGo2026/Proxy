@@ -150,11 +150,22 @@ def check_alive(items):
     return alive, dead
 
 
+def interleave(groups):
+    merged = []
+    for i in range(max((len(group) for group in groups), default=0)):
+        for group in groups:
+            if i < len(group):
+                merged.append(group[i])
+    return merged
+
+
 def build_pool(topic_links, public_links):
     unique = build_entries(topic_links, public_links)
     print(f"🧹 Уникальных ссылок после дедупликации: {len(unique)}")
 
-    alive, dead = check_alive(unique[:CHECK_LIMIT])
+    groups = [[item for item in unique if item["rank"] == rank] for rank in (0, 1, 2)]
+
+    alive, dead = check_alive(interleave(groups)[:CHECK_LIMIT])
     print(f"🔌 Отвечают: {len(alive)} | Не отвечают: {len(dead)}")
 
     key = lambda item: (item["rank"], item["order"])
@@ -468,11 +479,12 @@ async def main():
     topic_links = await collect_topic()
     public_links = collect_public()
 
-    links = build_pool(topic_links, public_links)
-    if not links:
+    pool = build_pool(topic_links, public_links)
+    if not pool:
         print("❌ Прокси недостаточно — сайт и рассылка пропущены.")
         return
 
+    links = [item["link"] for item in pool]
     save_site(links)
 
     known_users = collect_users()
