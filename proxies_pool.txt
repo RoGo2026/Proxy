@@ -23,8 +23,8 @@ tg://proxy?server=p.lite64.top&port=443&secret=eee3dfe8e59202ba62b5da063ddddaa81
 tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e6627d96c69746536342e73697465
 tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340bd1ca4972656c61792e7375726676706e2e617070
 tg://proxy?server=tg1.boxprox.org&port=443&secret=dda63735026b6da35ed9a70f5e73220fda
-tg://proxy?server=redflag.yazaebalsyadelatproxy.co.uk&port=443&secret=ee69e899d89ec68e220ca177557322b27f726564666c61672e79617a616562616c73796164656c617470726f78792e6363
 tg://proxy?server=tgw9.badvpn.win&port=443&secret=ddeb1b96b2545f7a862ab6f0c14945b0b5
 tg://proxy?server=xxmatrixx.top&port=853&secret=eee4508d288bf81791177a2f5e73ac06cf6d617472697878782e746f70
 tg://proxy?server=storagexx.space&port=443&secret=ee24b61556a3ec49bc0c7a5a7e8525702873746f7261676578782e7370616365
 tg://proxy?server=tgw5.badvpn.win&port=443&secret=ddaf807abc92c287be221271349bb904ee
+tg://proxy?server=makato62.mosswren.vip&port=443&secret=ee4e2e9413e98d2dd622d29d7dfce9df946d616b61746f36322e6d6f73737772656e2e766970
