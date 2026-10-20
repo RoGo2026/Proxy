@@ -24,7 +24,7 @@ tg://proxy?server=tg1-ru4.chadvpn.shop&port=8443&secret=eed1701b28cde5b617b23263
 tg://proxy?server=usb.neo-duo.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=vgy3f.antitspu.com&port=443&secret=dd5aa53c09879423668987d232864cb2ab
+tg://proxy?server=api.quickrouteapp.xyz&port=443&secret=dded74276eabb934874721ad7a5c9e7c94
 tg://proxy?server=web.arixo.shop&port=443&secret=dd27e57f496bbf279605f0198ea6d26067
 tg://proxy?server=rade89.mosswren.vip&port=443&secret=eef370f65154cbd28b4066bb9dbf5fb6d97261646538392e6d6f73737772656e2e766970
 tg://proxy?server=topo15.mosswren.vip&port=443&secret=ee899032aa75159cc1d735f15e7a0e3a6e746f706f31352e6d6f73737772656e2e766970
-tg://proxy?server=mato82.tidelark.cc&port=443&secret=ee162063fc602a74460eea3cb0135cc3196d61746f38322e746964656c61726b2e6363
