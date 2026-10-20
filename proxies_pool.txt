@@ -13,7 +13,6 @@ tg://proxy?server=t.meow-network.com&port=443&secret=ee5622e11fff3e49bcc85280197
 tg://proxy?server=sioms.co.uk&port=25565&secret=ee104462821249bd7ac519130220c25d0963646e2e79656b74616e65742e636f6d
 tg://proxy?server=ssh.best-moz.info&port=22&secret=dd79e344818749bd7ac519130220c25d09
 tg://proxy?server=granite.mtproxy.zip&port=443&secret=ee3f8a91c2d7e04b6a9f12c5e8370bd4aa786170692e6f7a6f6e2e7275
-tg://proxy?server=ykima.davay.click&port=443&secret=ee06dfdbdf271bab18c6b606484c237384796b696d612e64617661792e636c69636b
 tg://proxy?server=fast.mishutkin.click&port=443&secret=eef767ebee5708dadc985d58ad6e04560664726976652e676f6f676c652e636f6d
 tg://proxy?server=p.lite64.top&port=443&secret=eee3dfe8e59202ba62b5da063ddddaa8106c69746536342e73697465
 tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e6627d96c69746536342e73697465
@@ -24,6 +23,7 @@ tg://proxy?server=jhndoes.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=tg1-ru4.chadvpn.shop&port=8443&secret=eed1701b28cde5b617b23263cf5e601dae7467312d7275342e6368616476706e2e73686f70
 tg://proxy?server=usb.neo-duo.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
+tg://proxy?server=vgy3f.antitspu.com&port=443&secret=dd5aa53c09879423668987d232864cb2ab
 tg://proxy?server=web.arixo.shop&port=443&secret=dd27e57f496bbf279605f0198ea6d26067
 tg://proxy?server=rade89.mosswren.vip&port=443&secret=eef370f65154cbd28b4066bb9dbf5fb6d97261646538392e6d6f73737772656e2e766970
 tg://proxy?server=topo15.mosswren.vip&port=443&secret=ee899032aa75159cc1d735f15e7a0e3a6e746f706f31352e6d6f73737772656e2e766970
