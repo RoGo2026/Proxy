@@ -24,5 +24,6 @@ tg://proxy?server=darya.saheledarya.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdC
 tg://proxy?server=tg1-ru4.chadvpn.shop&port=8443&secret=eed1701b28cde5b617b23263cf5e601dae7467312d7275342e6368616476706e2e73686f70
 tg://proxy?server=usb.neo-duo.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
+tg://proxy?server=web.arixo.shop&port=443&secret=dd27e57f496bbf279605f0198ea6d26067
 tg://proxy?server=zori48.mosswren.vip&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b7a6f726934382e6d6f73737772656e2e766970
 tg://proxy?server=dezori62.tidelark.cc&port=443&secret=ee24c8636b7e946779a023ee708370719b64657a6f726936322e746964656c61726b2e6363
