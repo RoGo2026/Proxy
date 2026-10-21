@@ -1,6 +1,6 @@
 tg://proxy?server=recordzan.herfeibash.info&port=7799&secret=dd10400103324995b07c030386e886e7f1
-tg://proxy?server=speed-speed.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=papaomega.whiskeytangofoxtrot.lol&port=443&secret=ee0d037362b00037147a4d50093c3d261c706170616f6d6567612e776869736b657974616e676f666f7874726f742e6c6f6c
+tg://proxy?server=speed-speed.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=connect.mishutkin.click&port=443&secret=ee43b48df152c2246a45ec2f88ea52877264726976652e676f6f676c652e636f6d
 tg://proxy?server=redflag.yazaebalsyadelatproxy.co.uk&port=443&secret=ee69e899d89ec68e220ca177557322b27f726564666c61672e79617a616562616c73796164656c617470726f78792e6363
 tg://proxy?server=severjadid.co.uk&port=4455&secret=dd104462821249bd7ac519130220c25d09
@@ -20,11 +20,11 @@ tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e662
 tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340bd1ca4972656c61792e7375726676706e2e617070
 tg://proxy?server=tg1.boxprox.org&port=443&secret=dda63735026b6da35ed9a70f5e73220fda
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
-tg://proxy?server=drovane.xyz&port=443&secret=dd7ec606b60fd41b56a57e7e47671c41bd
 tg://proxy?server=ccc.horizon555.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=tgw4.badvpn.win&port=443&secret=dddd08ba10789e8476202414e15de13007
+tg://proxy?server=cdn.flowaccess.site&port=443&secret=dd1924acaec2bb63dac896a6d02a382f38
 tg://proxy?server=max.kimt.click&port=443&secret=ee1b153cf06dbd43c6085c359a6702eb936d61782e6b696d742e636c69636b
 tg://proxy?server=as.mkim.click&port=443&secret=ee2dfa3526fc70b7abd7a09eade6ccea1f61732e6d6b696d2e636c69636b
-tg://proxy?server=fbv9c.antitspu.com&port=443&secret=dd8d05cf0474c92f5951fb646f04621d09
 tg://proxy?server=tgw6.badvpn.win&port=443&secret=dd8d307447d500aaf25ef85dede7d3fb7a
 tg://proxy?server=free.patrickkvn.space&port=1443&secret=ee2fe1db8abc6f21e54b344f1b1deb094c706563686b612d626f63686b612e7275
+tg://proxy?server=tg1-ru4.chadvpn.shop&port=853&secret=eeb238721218eebd6f1d571990af3c4d9b7467312d7275342e6368616476706e2e73686f70
