@@ -11,7 +11,6 @@ tg://proxy?server=t.meow-network.com&port=443&secret=ee5622e11fff3e49bcc85280197
 tg://proxy?server=sioms.co.uk&port=25565&secret=ee104462821249bd7ac519130220c25d0963646e2e79656b74616e65742e636f6d
 tg://proxy?server=ssh.best-moz.info&port=22&secret=dd79e344818749bd7ac519130220c25d09
 tg://proxy?server=granite.mtproxy.zip&port=443&secret=ee3f8a91c2d7e04b6a9f12c5e8370bd4aa786170692e6f7a6f6e2e7275
-tg://proxy?server=ykima.davay.click&port=443&secret=ee06dfdbdf271bab18c6b606484c237384796b696d612e64617661792e636c69636b
 tg://proxy?server=akenai.tg&port=853&secret=ee54ce330e4690cc297d2b031ff3f288b06d742e616b656e61692e636c69636b
 tg://proxy?server=fast.mishutkin.click&port=443&secret=eef767ebee5708dadc985d58ad6e04560664726976652e676f6f676c652e636f6d
 tg://proxy?server=p.lite64.top&port=443&secret=eee3dfe8e59202ba62b5da063ddddaa8106c69746536342e73697465
@@ -23,8 +22,9 @@ tg://proxy?server=ir.closcloud.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=tgw4.badvpn.win&port=443&secret=dddd08ba10789e8476202414e15de13007
 tg://proxy?server=max.kimt.click&port=443&secret=ee1b153cf06dbd43c6085c359a6702eb936d61782e6b696d742e636c69636b
 tg://proxy?server=as.mkim.click&port=443&secret=ee2dfa3526fc70b7abd7a09eade6ccea1f61732e6d6b696d2e636c69636b
-tg://proxy?server=fbv9c.antitspu.com&port=443&secret=dd8d05cf0474c92f5951fb646f04621d09
 tg://proxy?server=tgw6.badvpn.win&port=443&secret=dd8d307447d500aaf25ef85dede7d3fb7a
-tg://proxy?server=free.patrickkvn.space&port=1443&secret=ee2fe1db8abc6f21e54b344f1b1deb094c706563686b612d626f63686b612e7275
 tg://proxy?server=tg1-ru4.chadvpn.shop&port=853&secret=eeb238721218eebd6f1d571990af3c4d9b7467312d7275342e6368616476706e2e73686f70
 tg://proxy?server=s1.stroypremium.xyz&port=443&secret=dd443e315fa07ae5304b45effd2defe9dd
+tg://proxy?server=maption.ru&port=443&secret=dd73547755e22b1ed4b4fbc15d854964fd
+tg://proxy?server=tgw7.badvpn.win&port=443&secret=dd062cff3569a64e66f603800db4213420
+tg://proxy?server=shampoo.mikhay.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
