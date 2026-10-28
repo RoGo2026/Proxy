@@ -20,7 +20,6 @@ tg://proxy?server=severjadid.co.uk&port=4455&secret=dd104462821249bd7ac519130220
 tg://proxy?server=paeez.delroba.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=ir.forzajuve.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=zarnia.xyz&port=443&secret=ddfd367c42b90b0d8ec99796e343454424
-tg://proxy?server=x.shmelproxy.top&port=443&secret=eefc2612ff65a557fddf1d1b334395ef237975672d6c696e6b2e7275
 tg://proxy?server=jet.proxynet.tech&port=443&secret=ee52b5d8dfe0397e38189b83a2bfee33276a65742e70726f78796e65742e74656368
 tg://proxy?server=blaze.proxynet.tech&port=443&secret=ee68a635167451a249f2f27a7a9245d2fb626c617a652e70726f78796e65742e74656368
 tg://proxy?server=104.250.239.16&port=12347&secret=ee0791ecfea02ec47e40f8d4583e4a7e767777772e6d6963726f736f66742e636f6d
