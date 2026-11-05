@@ -4,6 +4,7 @@ tg://proxy?server=speed-speed.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b
 tg://proxy?server=nakoshimon-jomong.lolauth.info&port=8443&secret=1603010200010001fc030386e24c3add
 tg://proxy?server=00066f7k7.ir.meli-n13.info&port=8443&secret=104462821249bd7ac519130220c25d09
 tg://proxy?server=tond.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
+tg://proxy?server=proxy.nizya.club&port=443&secret=ee05cf8e164f926f4a664b2404d276a1d670726f78792e6e697a79612e636c7562
 tg://proxy?server=max.mishutkin.click&port=443&secret=ee94989d74ad055391384d92c3c773c8d264726976652e676f6f676c652e636f6d
 tg://proxy?server=kalene97.fernlark.xyz&port=8443&secret=eea02849a55daccdc7f7a05691b7ef7cd164726976652e676f6f676c652e636f6d
 tg://proxy?server=zolo25.quillmarsh.xyz&port=8443&secret=ee24c8636b7e946779a023ee708370719b706574726f766963682e7275
@@ -21,7 +22,6 @@ tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e662
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
-tg://proxy?server=z1.nevcodeframe.com&port=443&secret=eee5e0d75865263bccabe94c92f446184f7a312e6e6576636f64656672616d652e636f6d
 tg://proxy?server=jhndoes.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=dashi.estabonita.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=app.proxylite.tech&port=443&secret=ee5552e50daad27769c9d5bbd67173901664726976652e676f6f676c652e636f6d
