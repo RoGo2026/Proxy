@@ -4,6 +4,7 @@ tg://proxy?server=194.60.228.28&port=2096&secret=79e344818749bd7ac519130220c25d0
 tg://proxy?server=fast.mishutkin.click&port=443&secret=eef767ebee5708dadc985d58ad6e04560664726976652e676f6f676c652e636f6d
 tg://proxy?server=citrus.driftquill.click&port=8443&secret=ee2b6eb790d613a1725557ce33b9a87b30786170692e6f7a6f6e2e7275
 tg://proxy?server=ge2.kkkservers.tech&port=8443&secret=eef99731abbc063924c8b52c5cd7aeca3a6765322e6b6b6b736572766572732e74656368
+tg://proxy?server=shared3.ddproxy.xyz&port=443&secret=eedddddddddddddddddddddddddddddddd6d2e6265626f6f2e7275
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=proxy.nizya.club&port=443&secret=ee05cf8e164f926f4a664b2404d276a1d670726f78792e6e697a79612e636c7562
 tg://proxy?server=zenon.flashspder.info&port=8443&secret=1603010200010001fc030386e24c3add
@@ -27,4 +28,3 @@ tg://proxy?server=upyachka.bid&port=443&secret=e6e22259be2e49be662189ee3b5ab606
 tg://proxy?server=s4.zentconnect.xyz&port=853&secret=7uVtKuCy6tRJSvU7EIZdrWRzMS56ZW50Y29ubmVjdC54eXo
 tg://proxy?server=s4.zentnetwork.xyz&port=853&secret=7jPZCakf82Lgd43TljG4N9tzMS56ZW50bmV0d29yay54eXo
 tg://proxy?server=tg.proxylite.tech&port=443&secret=eef22d515ba9287f6994e9e12a9166e1b564726976652e676f6f676c652e636f6d
-tg://proxy?server=ru.proxylite.tech&port=443&secret=ee833dfa8dd7efcb5790d22be4401e33b664726976652e676f6f676c652e636f6d
