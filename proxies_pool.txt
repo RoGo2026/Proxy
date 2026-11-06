@@ -25,6 +25,5 @@ tg://proxy?server=ir.lv426.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=white.magli200.info&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=65.21.227.250&port=443&secret=3XnnAQIAAQAH8AMDhuJMOt0
 tg://proxy?server=upyachka.bid&port=443&secret=e6e22259be2e49be662189ee3b5ab606
-tg://proxy?server=s4.zentconnect.xyz&port=853&secret=7uVtKuCy6tRJSvU7EIZdrWRzMS56ZW50Y29ubmVjdC54eXo
-tg://proxy?server=s4.zentnetwork.xyz&port=853&secret=7jPZCakf82Lgd43TljG4N9tzMS56ZW50bmV0d29yay54eXo
 tg://proxy?server=tg.proxylite.tech&port=443&secret=eef22d515ba9287f6994e9e12a9166e1b564726976652e676f6f676c652e636f6d
+tg://proxy?server=ru.proxylite.tech&port=443&secret=ee833dfa8dd7efcb5790d22be4401e33b664726976652e676f6f676c652e636f6d
