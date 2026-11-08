@@ -1,10 +1,10 @@
-tg://proxy?server=144.76.87.43&port=25592&secret=eed578730418a2f69e9b0aa0b265ce11c37777772e636c6f7564666c6172652e636f6d
 tg://proxy?server=45.195.250.70&port=443&secret=ddb83572a117470fd34eee07134d361f0b
+tg://proxy?server=144.76.87.43&port=25592&secret=eed578730418a2f69e9b0aa0b265ce11c37777772e636c6f7564666c6172652e636f6d
 tg://proxy?server=4.masi.ir.he6fhd.ru&port=8443&secret=dd104462821249bd7ac519130220c25d09
-tg://proxy?server=ir.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
+tg://proxy?server=rudmoain.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=194.60.228.28&port=2096&secret=79e344818749bd7ac519130220c25d09
-tg://proxy?server=hel-hi.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=khare-gol.golabkashan.info&port=8443&secret=1603010200010001fc030386e24c3add
+tg://proxy?server=ir.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
 tg://proxy?server=194.146.25.221&port=443&secret=7gAAAAAAAAAAAAAAAAAAAABhcHBsZS5jb20
 tg://proxy?server=t.meow-network.com&port=443&secret=ee5622e11fff3e49bcc85280197a6106b5742e6d656f772d6e6574776f726b2e636f6d
@@ -17,7 +17,6 @@ tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e662
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
-tg://proxy?server=app.webproxy.lol&port=443&secret=ee176aff89de055a87d06876140d3a93f864726976652e676f6f676c652e636f6d
 tg://proxy?server=m.lumenpost.top&port=443&secret=eeadb7cfebd78712e71db745c9da7281b16d2e6c756d656e706f73742e746f70
 tg://proxy?server=ir.brettanderson.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=panir.begir.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
@@ -26,4 +25,5 @@ tg://proxy?server=tg.webproxy.lol&port=443&secret=ee2cb4790feb376c8954213911eca1
 tg://proxy?server=irl.firemedia.digital&port=443&secret=eeadd144b0531c1a9f5947e3cb29dc4fd569726c2e666972656d656469612e6469676974616c
 tg://proxy?server=zov-svo.anixart.my&port=443&secret=5a913e5b550cda6d9340b1543e8d5465
 tg://proxy?server=ru.webproxy.lol&port=443&secret=ee692fe339bc0887467d7e0c7a9822fbf064726976652e676f6f676c652e636f6d
+tg://proxy?server=app.webproxy.lol&port=443&secret=ee176aff89de055a87d06876140d3a93f864726976652e676f6f676c652e636f6d
 tg://proxy?server=164.37.224.216&port=443&secret=ddc62c6006d0a383e80aab9f1b8a233856
