@@ -6,10 +6,13 @@ on:
 permissions:
   contents: write # Даем экшену права на запись, чтобы он мог пушить обновленный сайт
 
+env:
+  PYTHON_VERSION: '3.12'
+
 jobs:
   build-and-parse:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -18,7 +21,8 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
+          check-latest: false
 
       - name: Cache Python dependencies
         id: pip-cache
