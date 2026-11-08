@@ -2,7 +2,6 @@ tg://proxy?server=45.195.250.70&port=443&secret=ddb83572a117470fd34eee07134d361f
 tg://proxy?server=144.76.87.43&port=25592&secret=eed578730418a2f69e9b0aa0b265ce11c37777772e636c6f7564666c6172652e636f6d
 tg://proxy?server=4.masi.ir.he6fhd.ru&port=8443&secret=dd104462821249bd7ac519130220c25d09
 tg://proxy?server=rudmoain.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
-tg://proxy?server=194.60.228.28&port=2096&secret=79e344818749bd7ac519130220c25d09
 tg://proxy?server=khare-gol.golabkashan.info&port=8443&secret=1603010200010001fc030386e24c3add
 tg://proxy?server=ir.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
@@ -18,6 +17,7 @@ tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
 tg://proxy?server=tg.webproxy.lol&port=443&secret=ee2cb4790feb376c8954213911eca1d3eb64726976652e676f6f676c652e636f6d
+tg://proxy?server=lamwc.proxystepa.site&port=443&secret=ddbe6d1374ff54b98d3dfa36f80c5a0709
 tg://proxy?server=irl.firemedia.digital&port=443&secret=eeadd144b0531c1a9f5947e3cb29dc4fd569726c2e666972656d656469612e6469676974616c
 tg://proxy?server=speed.foriran.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=zov-svo.anixart.my&port=443&secret=5a913e5b550cda6d9340b1543e8d5465
@@ -27,4 +27,4 @@ tg://proxy?server=vk1.host.siblin.org&port=4324&secret=ee25cd948c0fdbcb460082f19
 tg://proxy?server=n7d626c.lumenpost.top&port=443&secret=ee0b03536395a48484bf73aadee0e37dd46d2e6c756d656e706f73742e746f70
 tg://proxy?server=vk02.camdvr.org&port=5493&secret=eedc9cc5535051a23765d0b50fbb5a5d8c7777772e73616d73756e672e636f6d
 tg://proxy?server=static.antenna-mzt.live&port=443&secret=ee5a42e3752e724f2fdae9c117e7f076fe73746f72652e737465616d706f77657265642e636f6d
-tg://proxy?server=cdn3.badwinkvn.site&port=443&secret=ddb01bf1b45304d19a89ab0346c50649c4
+tg://proxy?server=de-p1.h1cloud.net&port=25153&secret=ee0c63bf0d9b4a6cb5455e677bad52bf8b6d61782e7275
