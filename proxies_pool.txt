@@ -23,7 +23,7 @@ tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae
 tg://proxy?server=ir.philgent.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=pishi.nanaz.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
 tg://proxy?server=im.dumaniltd.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
-tg://proxy?server=nss53.proxystepa.site&port=443&secret=dd2e2260e53908967471a9a9037cab5c82
 tg://proxy?server=185.166.214.158&port=8443&secret=7n3yZ_5IshU33VFu-RJW7fZ3d3cuYXBwbGUuY29t
 tg://proxy?server=z1.nevcodeframe.com&port=443&secret=eee5e0d75865263bccabe94c92f446184f7a312e6e6576636f64656672616d652e636f6d
+tg://proxy?server=coinvpnpro.duckdns.org&port=443&secret=ee3c23bf23e13aff489d37ab8181e48144636f696e76706e70726f2e6475636b646e732e6f7267
 tg://proxy?server=n7d626c.lumenpost.top&port=443&secret=ee0b03536395a48484bf73aadee0e37dd46d2e6c756d656e706f73742e746f70
