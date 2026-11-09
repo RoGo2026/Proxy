@@ -3,7 +3,6 @@ tg://proxy?server=hel-hi.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216
 tg://proxy?server=storagexx.space&port=443&secret=ee24b61556a3ec49bc0c7a5a7e8525702873746f7261676578782e7370616365
 tg://proxy?server=xxmatrixx.top&port=853&secret=eee4508d288bf81791177a2f5e73ac06cf6d617472697878782e746f70
 tg://proxy?server=turbo.webproxy.lol&port=443&secret=ee51fa3aadf3d9849a914784a8de1ff7e0747572626f2e77656270726f78792e6c6f6c
-tg://proxy?server=x.shmelproxy.top&port=443&secret=eefc2612ff65a557fddf1d1b334395ef237975672d6c696e6b2e7275
 tg://proxy?server=130.210.28.61&port=8443&secret=ee93347c71bba50740c51ae7052ed6b9e3636c6f7564666c6172652e636f6d
 tg://proxy?server=160.16.130.120&port=443&secret=eed087b9930e0ee686b6b4607244af896e7777772e6d6963726f736f66742e636f6d
 tg://proxy?server=fast.webproxy.lol&port=443&secret=ee4160cbb0629c129ad2209f4df88d4bc964726976652e676f6f676c652e636f6d
@@ -28,3 +27,4 @@ tg://proxy?server=im.dumaniltd.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=nss53.proxystepa.site&port=443&secret=dd2e2260e53908967471a9a9037cab5c82
 tg://proxy?server=185.166.214.158&port=8443&secret=7n3yZ_5IshU33VFu-RJW7fZ3d3cuYXBwbGUuY29t
 tg://proxy?server=boost.webproxy.lol&port=443&secret=ee61a214279f303f07c536ce7a8228e4c5626f6f73742e77656270726f78792e6c6f6c
+tg://proxy?server=zzqg0.proxydazhenaparkovke.site&port=443&secret=ddfa0d05a84f308c0ab512ad5e2b6bebd2
