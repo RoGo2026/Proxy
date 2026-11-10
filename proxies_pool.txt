@@ -20,11 +20,11 @@ tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340b
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
-tg://proxy?server=pishi.nanaz.co.uk&port=8443&secret=EERighJJvXrFGRMCIMJdCQ
-tg://proxy?server=warp.webproxy.lol&port=443&secret=eecdd352e63c109299dc978b4e94fc4897776172702e77656270726f78792e6c6f6c
-tg://proxy?server=im.dumaniltd.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
-tg://proxy?server=nss53.proxystepa.site&port=443&secret=dd2e2260e53908967471a9a9037cab5c82
-tg://proxy?server=185.166.214.158&port=8443&secret=7n3yZ_5IshU33VFu-RJW7fZ3d3cuYXBwbGUuY29t
+tg://proxy?server=mio.mozitop.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
 tg://proxy?server=boost.webproxy.lol&port=443&secret=ee61a214279f303f07c536ce7a8228e4c5626f6f73742e77656270726f78792e6c6f6c
 tg://proxy?server=zzqg0.proxydazhenaparkovke.site&port=443&secret=ddfa0d05a84f308c0ab512ad5e2b6bebd2
 tg://proxy?server=z1.nevcodeframe.com&port=443&secret=eee5e0d75865263bccabe94c92f446184f7a312e6e6576636f64656672616d652e636f6d
+tg://proxy?server=n210bbb.lumenpost.top&port=443&secret=ee0b03536395a48484bf73aadee0e37dd46d2e6c756d656e706f73742e746f70
+tg://proxy?server=172.65.62.96&port=49955&secret=eeeeNEgYdJvXrFGRMCIMJdCQ
+tg://proxy?server=ehkg3.proxyux.site&port=443&secret=dd519fde42027f143e4fc82a97e59baff8
+tg://proxy?server=3pviq.proxydazhenaparkovke.site&port=443&secret=ddc6a4f331113ff4082a87cb48b2534506
