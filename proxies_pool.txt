@@ -8,6 +8,7 @@ tg://proxy?server=storagexx.space&port=443&secret=ee24b61556a3ec49bc0c7a5a7e8525
 tg://proxy?server=xxmatrixx.top&port=853&secret=eee4508d288bf81791177a2f5e73ac06cf6d617472697878782e746f70
 tg://proxy?server=turbo.webproxy.lol&port=443&secret=ee51fa3aadf3d9849a914784a8de1ff7e0747572626f2e77656270726f78792e6c6f6c
 tg://proxy?server=160.16.130.120&port=443&secret=eed087b9930e0ee686b6b4607244af896e7777772e6d6963726f736f66742e636f6d
+tg://proxy?server=130.210.28.61&port=8443&secret=ee93347c71bba50740c51ae7052ed6b9e3636c6f7564666c6172652e636f6d
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
 tg://proxy?server=194.146.25.221&port=443&secret=7gAAAAAAAAAAAAAAAAAAAABhcHBsZS5jb20
 tg://proxy?server=t.meow-network.com&port=443&secret=ee5622e11fff3e49bcc85280197a6106b5742e6d656f772d6e6574776f726b2e636f6d
@@ -27,4 +28,3 @@ tg://proxy?server=zzqg0.proxydazhenaparkovke.site&port=443&secret=ddfa0d05a84f30
 tg://proxy?server=z1.nevcodeframe.com&port=443&secret=eee5e0d75865263bccabe94c92f446184f7a312e6e6576636f64656672616d652e636f6d
 tg://proxy?server=n210bbb.lumenpost.top&port=443&secret=ee0b03536395a48484bf73aadee0e37dd46d2e6c756d656e706f73742e746f70
 tg://proxy?server=172.65.62.96&port=49955&secret=eeeeNEgYdJvXrFGRMCIMJdCQ
-tg://proxy?server=3pviq.proxydazhenaparkovke.site&port=443&secret=ddc6a4f331113ff4082a87cb48b2534506
