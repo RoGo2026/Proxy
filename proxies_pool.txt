@@ -6,7 +6,6 @@ tg://proxy?server=pintrest-cool.browncolor.info&port=8443&secret=160301020001000
 tg://proxy?server=fast.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=tg.proxynet.tech&port=443&secret=ee6d98b7c125f854c0ac73c588ec9f225864726976652e676f6f676c652e636f6d
 tg://proxy?server=lynette.myrka.digital&port=443&secret=ee54701e1686de96a44721501a7bee9e4c6c796e657474652e6d79726b612e6469676974616c
-tg://proxy?server=awd.subaru-volga.com&port=443&secret=ee1111222233334444555566667777888874342e6d79726b612e6469676974616c
 tg://proxy?server=barsik.subaru-volga.com&port=443&secret=ee04daa35f7150d1d16c43f270c26831086a61726b6f2e6d79726b612e6469676974616c
 tg://proxy?server=zolole21.larchmere.xyz&port=8443&secret=eeb0a621aecd97816306c197d21a8bf47b786170692e6f7a6f6e2e7275
 tg://proxy?server=rimi88.fernlark.xyz&port=8443&secret=ee3e175e0503b04fc22a65e6b6b60d5d9c786170692e6f7a6f6e2e7275
@@ -28,3 +27,4 @@ tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340b
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
+tg://proxy?server=mapo12.tidalbirch.sbs&port=443&secret=eec351e909bc2939e1ca4fbcc6b762a1bd786170692e6f7a6f6e2e7275
