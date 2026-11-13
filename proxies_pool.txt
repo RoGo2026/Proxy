@@ -4,13 +4,13 @@ tg://proxy?server=bookmook.hichibehichi-co.info&port=2882&secret=dd1040010332499
 tg://proxy?server=azadi.goooalir.co.uk&port=8443&secret=dd104462821249bd7ac519130220c25d09
 tg://proxy?server=gardeshgar.miandoabs.info&port=8443&secret=1603010200010001fc030386e24c3add
 tg://proxy?server=gram.prxtg.top&port=443&secret=eeabde1be2accd3413ec8e8a0fa256287f64726976652e676f6f676c652e636f6d
+tg://proxy?server=barsik.subaru-volga.com&port=443&secret=ee04daa35f7150d1d16c43f270c26831086a61726b6f2e6d79726b612e6469676974616c
 tg://proxy?server=t4.myrka.digital&port=443&secret=ee1111222233334444555566667777888874342e6d79726b612e6469676974616c
 tg://proxy?server=ir.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=w.prxtg.top&port=443&secret=eec15b39b08e586ff58acd45d81178bf1864726976652e676f6f676c652e636f6d
 tg://proxy?server=speed-speed.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=topproxt.asia&port=443&secret=eebbb00c5d6d8a742b1a762499eb7d4912617669746f2e7275
 tg://proxy?server=tg.prxtg.top&port=443&secret=ee2d1bb45f31056d1063563fc6e38e5a1064726976652e676f6f676c652e636f6d
-tg://proxy?server=awd.subaru-volga.com&port=443&secret=ee54701e1686de96a44721501a7bee9e4c6c796e657474652e6d79726b612e6469676974616c
 tg://proxy?server=proxy.nizya.club&port=443&secret=ee05cf8e164f926f4a664b2404d276a1d670726f78792e6e697a79612e636c7562
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
 tg://proxy?server=194.146.25.221&port=443&secret=7gAAAAAAAAAAAAAAAAAAAABhcHBsZS5jb20
@@ -25,6 +25,6 @@ tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340b
 tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
-tg://proxy?server=fast.prxtg.top&port=443&secret=ee2c6cbde6f1e8947d8495ea1de476fc0b64726976652e676f6f676c652e636f6d
 tg://proxy?server=ir-ir.barhousefarm.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=t.sibvpn.com&port=443&secret=ee37b4bdaa6b81324d07aa4ac9ec7ab431646c2e736f667439382e6972
+tg://proxy?server=cdn1.49945664.xyz&port=443&secret=dd0c038bc74e81ff16fdfff75ef5a92df8
