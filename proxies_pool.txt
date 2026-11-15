@@ -3,6 +3,7 @@ tg://proxy?server=proxy.gocdn-prime.ir&port=41816&secret=82f1ed94476a3948772eae5
 tg://proxy?server=bookmook.hichibehichi-co.info&port=2882&secret=dd10400103324995b07c030386e886e7f1
 tg://proxy?server=azadi.goooalir.co.uk&port=8443&secret=dd104462821249bd7ac519130220c25d09
 tg://proxy?server=ultraproxy.shop&port=443&secret=eeec15a78c3842e866c302c8526175a68c7975672d6c696e6b2e7275
+tg://proxy?server=barsik.subaru-volga.com&port=443&secret=ee04daa35f7150d1d16c43f270c26831086a61726b6f2e6d79726b612e6469676974616c
 tg://proxy?server=t4.myrka.digital&port=443&secret=ee1111222233334444555566667777888874342e6d79726b612e6469676974616c
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=speed-speed.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
@@ -27,4 +28,3 @@ tg://proxy?server=maraka16.ashwren.xyz&port=443&secret=ee912defad667a620d66dbf5f
 tg://proxy?server=zone88.sorrelbay.xyz&port=8443&secret=ee0a717e9ba394eff63a9943ff11493cc2706574726f766963682e7275
 tg://proxy?server=ir.lv426.co.uk&port=8443&secret=EERighJJvXrFGRMCIMjdCQ
 tg://proxy?server=nema75.kelpmoor.xyz&port=443&secret=ee3766caef3a1312832d053fae6706c1d86f7a6f6e2e7275
-tg://proxy?server=ganymi63.sorrelbay.xyz&port=8443&secret=ee0387ddee19bfe48499262c18214228ec617669746f2e7275
