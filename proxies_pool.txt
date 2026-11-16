@@ -25,6 +25,6 @@ tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
 tg://proxy?server=neka18.ashwren.xyz&port=443&secret=ee0a3c55c05f348a0fc2c17b373f9a9157786170692e6f7a6f6e2e7275
 tg://proxy?server=zonyzo22.sorrelbay.xyz&port=8443&secret=ee0a3c55c05f348a0fc2c17b373f9a9157617669746f2e7275
-tg://proxy?server=3pviq.proxydazhenaparkovke.site&port=443&secret=ddc6a4f331113ff4082a87cb48b2534506
 tg://proxy?server=gamama22.sorrelbay.xyz&port=8443&secret=ee0a3c55c05f348a0fc2c17b373f9a91576f7a6f6e2e7275
 tg://proxy?server=n391810.tidalcache.com&port=443&secret=ee5c89ab20266ce759f96a0745b63d7cdf656467652e746964616c63616368652e636f6d
+tg://proxy?server=mio.mozitop.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
