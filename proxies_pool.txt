@@ -6,7 +6,7 @@ tg://proxy?server=nyakawai.shop&port=443&secret=eeec15a78c3842e866c302c8526175a6
 tg://proxy?server=matrixxx.wtf&port=443&secret=ee9250b2b65b8921d01a306376fc2dd2ca6d617472697878782e777466
 tg://proxy?server=matrixxx.vip&port=443&secret=eed0c83b444210a4302be4b1fe17714d4e6d617472697878782e766970
 tg://proxy?server=bo0ji.co.uk&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
-tg://proxy?server=valenki.kemerovo.online&port=443&secret=eed80703ad02e82988a4b6b4d437fe2c9c76616c656e6b692e6b656d65726f766f2e6f6e6c696e65
+tg://proxy?server=parts.kemerovo.online&port=443&secret=ee1111222233334444555566667777888874342e6d79726b612e6469676974616c
 tg://proxy?server=gta_6.pelastic.co.uk&port=443&secret=dddfe73f9e3650604cd0c4df7f9ab86a95
 tg://proxy?server=you.pelastic.co.uk&port=443&secret=ddc3b375786a3b9630e44cf87d2033a441
 tg://proxy?server=sudoaptupdate-y-sudoaptupgrade-y.logmanfi.info&port=8443&secret=1603010200010001fc030386e24c3add
@@ -27,4 +27,4 @@ tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21
 tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
 tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
 tg://proxy?server=awd.subaru-volga.com&port=443&secret=ee54701e1686de96a44721501a7bee9e4c6c796e657474652e6d79726b612e6469676974616c
-tg://proxy?server=jhndoes.co.uk&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
+tg://proxy?server=objectpeak.org&port=443&secret=ee15d9244d7aa802e81b1736133fe059c5686f66662e7275
