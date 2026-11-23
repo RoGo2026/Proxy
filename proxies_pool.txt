@@ -2,6 +2,7 @@ tg://proxy?server=support.infinityhalo.co.uk&port=8443&secret=79e344818749bd7ac5
 tg://proxy?server=pro.rocketpro.isroot.in&port=64953&secret=6e4c38e51df0ed03a32a340f709b899f
 tg://proxy?server=neon.tealbriar.xyz&port=8443&secret=ee7809adb838f02953d8f53df91d2e4b35706574726f766963682e7275
 tg://proxy?server=94.130.226.7&port=8443&secret=ee5f7ce28a2c4816c6c923dfd4d5630e01
+tg://proxy?server=mt-sw.alex-photo-notes.pl&port=443&secret=eeee677bf5d2356b3744e1208cc35d70887777772e676f6f676c652e636f6d
 tg://proxy?server=fast.strobox.info&port=443&secret=ddf0eeb0bd9adc4fd4a93994ee3b2a216b
 tg://proxy?server=matrixxx.wtf&port=443&secret=ee9250b2b65b8921d01a306376fc2dd2ca6d617472697878782e777466
 tg://proxy?server=matrixxx.vip&port=443&secret=eed0c83b444210a4302be4b1fe17714d4e6d617472697878782e766970
@@ -16,10 +17,7 @@ tg://proxy?server=zzzzzzz.davooti.info&port=8443&secret=1603010200010001fc030386
 tg://proxy?server=chat.appnormoor.com&port=443&secret=dd27729feca8dbcd8008c3fa4f12d92793
 tg://proxy?server=you.pelastic.co.uk&port=443&secret=ddc3b375786a3b9630e44cf87d2033a441
 tg://proxy?server=cdncoast.com&port=443&secret=eea0802366dd565a104bdfb2f9e390c2d4686f66662e7275
-tg://proxy?server=cdncove.com&port=443&secret=eea9bf6807ab1fccfb24817bcb05189bf3686f66662e7275
-tg://proxy?server=cdnbarrel.org&port=443&secret=ee7e417407b715ff26d9fafff34e31a33b686f66662e7275
 tg://proxy?server=objectpeak.org&port=443&secret=ee15d9244d7aa802e81b1736133fe059c5686f66662e7275
-tg://proxy?server=edgespindle.org&port=443&secret=eebec6acb2a5464709485d7cbeedd8612b686f66662e7275
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
 tg://proxy?server=194.146.25.221&port=443&secret=7gAAAAAAAAAAAAAAAAAAAABhcHBsZS5jb20
 tg://proxy?server=t.meow-network.com&port=443&secret=ee5622e11fff3e49bcc85280197a6106b5742e6d656f772d6e6574776f726b2e636f6d
@@ -28,3 +26,5 @@ tg://proxy?server=ykima.davay.click&port=443&secret=ee06dfdbdf271bab18c6b606484c
 tg://proxy?server=akenai.tg&port=853&secret=ee54ce330e4690cc297d2b031ff3f288b06d742e616b656e61692e636c69636b
 tg://proxy?server=fast.mishutkin.click&port=443&secret=eef767ebee5708dadc985d58ad6e04560664726976652e676f6f676c652e636f6d
 tg://proxy?server=p.lite64.top&port=443&secret=eee3dfe8e59202ba62b5da063ddddaa8106c69746536342e73697465
+tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e6627d96c69746536342e73697465
+tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340bd1ca4972656c61792e7375726676706e2e617070
