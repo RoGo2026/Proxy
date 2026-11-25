@@ -10,8 +10,13 @@ tg://proxy?server=ultraproxy.shop&port=443&secret=eeec15a78c3842e866c302c8526175
 tg://proxy?server=lenyma85.ashwren.xyz&port=8443&secret=ee26b9ec16854635afb251cb286cd726186f7a6f6e2e7275
 tg://proxy?server=gavi83.sorrelbay.xyz&port=443&secret=ee26b9ec16854635afb251cb286cd72618617669746f2e7275
 tg://proxy?server=fast.prxtg.top&port=443&secret=ee2c6cbde6f1e8947d8495ea1de476fc0b64726976652e676f6f676c652e636f6d
+tg://proxy?server=cdnbarrel.org&port=443&secret=ee7e417407b715ff26d9fafff34e31a33b686f66662e7275
+tg://proxy?server=cdncoast.com&port=443&secret=eea0802366dd565a104bdfb2f9e390c2d4686f66662e7275
+tg://proxy?server=objectpeak.org&port=443&secret=ee15d9244d7aa802e81b1736133fe059c5686f66662e7275
 tg://proxy?server=aptupdate.appnormoor.info&port=443&secret=dd27729feca8dbcd8008c3fa4f12d92793
 tg://proxy?server=5.222.26.187&port=8443&secret=dd104462821249bd7ac519130220c25d09
+tg://proxy?server=matrixxx.vip&port=443&secret=eed0c83b444210a4302be4b1fe17714d4e6d617472697878782e766970
+tg://proxy?server=matrixxx.wtf&port=443&secret=ee9250b2b65b8921d01a306376fc2dd2ca6d617472697878782e777466
 tg://proxy?server=cdncove.com&port=443&secret=eea9bf6807ab1fccfb24817bcb05189bf3686f66662e7275
 tg://proxy?server=209.127.228.162&port=443&secret=ee32b920dffb51643028e2f6b878d4eac16170706c652e636f6d
 tg://proxy?server=194.146.25.221&port=443&secret=7gAAAAAAAAAAAAAAAAAAAABhcHBsZS5jb20
@@ -23,8 +28,3 @@ tg://proxy?server=fast.mishutkin.click&port=443&secret=eef767ebee5708dadc985d58a
 tg://proxy?server=p.lite64.top&port=443&secret=eee3dfe8e59202ba62b5da063ddddaa8106c69746536342e73697465
 tg://proxy?server=p.lite64.click&port=443&secret=eee269911715c9ef9f821d02314e6627d96c69746536342e73697465
 tg://proxy?server=relay.surfvpn.app&port=443&secret=eedf44a4347c1eb8938c7e63340bd1ca4972656c61792e7375726676706e2e617070
-tg://proxy?server=pori49.tidelark.cc&port=443&secret=eeb0a621aecd97816306c197d21a8bf47b706f726934392e746964656c61726b2e6363
-tg://proxy?server=delo47.tidelark.cc&port=443&secret=ee214011ba04108a7b1836df3a5e918b3b64656c6f34372e746964656c61726b2e6363
-tg://proxy?server=ultra.mishutkin.click&port=443&secret=eed02e349163d9ea4376a2ae6a94fc550b64726976652e676f6f676c652e636f6d
-tg://proxy?server=awd.subaru-volga.com&port=443&secret=ee54701e1686de96a44721501a7bee9e4c6c796e657474652e6d79726b612e6469676974616c
-tg://proxy?server=49.13.59.213&port=8443&secret=eeNEgYdJvXrFGRMCIMJdCQ
