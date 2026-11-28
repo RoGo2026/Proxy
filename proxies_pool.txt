@@ -1,3 +1,4 @@
+tg://proxy?server=46.225.253.114&port=8443&secret=dd104462821249bd7ac519130220c25d09
 tg://proxy?server=neon.tealbriar.xyz&port=8443&secret=ee7809adb838f02953d8f53df91d2e4b35706574726f766963682e7275
 tg://proxy?server=rudmoain.co.uk&port=443&secret=eef0eeb0bd9adc4fd4a93994ee3b2a216b63646e2e79656b74616e65742e636f6d
 tg://proxy?server=lok1atomi.pr.deampro.pw&port=443&secret=ee85e36b1fea9add1b2b9de8996259df0f662d70312d733031352d3934356139666164653832312d3162623736356263333438612e6c6f6b3161746f6d692e70722e6465616d70726f2e7077
@@ -27,4 +28,3 @@ tg://proxy?server=ariobarzanes.ir.igakwvwa.info&port=7443&secret=eeNEgYdJvXrFGRM
 tg://proxy?server=194.120.230.120&port=443&secret=3XnnAQIAAQAH8AMDhuJMOt0
 tg://proxy?server=nyne50.sorrelbay.xyz&port=443&secret=ee302cabde68f0b8c57ca48b73072cd276786170692e6f7a6f6e2e7275
 tg://proxy?server=gany40.ashwren.xyz&port=8443&secret=ee302cabde68f0b8c57ca48b73072cd27662726f777365722e79616e6465782e7275
-tg://proxy?server=sierra.velvetwindow.cc&port=443&secret=eed09fb30e9ba945e3eb272875413c8c947369657272612e76656c76657477696e646f772e6363
